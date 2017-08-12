@@ -2,6 +2,8 @@ package basic;
 
 import CCPlayerPackage.Manager;
 import CCPlayerPackage.PlayerEnum;
+import Visualization.Visualization;
+import Visualization.VisualizationController;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class CCPlayer extends Player {
 
     Position p;
     List<Move> moves;
+
 
     @Override
     Move nextMove(Position p, List<Move> moves) {

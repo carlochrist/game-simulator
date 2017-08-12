@@ -1,5 +1,8 @@
 package basic;
 
+
+import Visualization.Visualization;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -14,6 +17,7 @@ import java.util.Random;
 
 public class GameSimulator {
 	Random random = new Random();
+	Visualization visualization;
 	GUI gui;
 	Game game;
 	CompetionSetup competionSetup = new CompetionSetup();
@@ -21,6 +25,7 @@ public class GameSimulator {
 	public GameSimulator() {
 		super();
 		gui = new GUI(this);
+		visualization = new Visualization();
 	}
 
 	public Game getGame() {

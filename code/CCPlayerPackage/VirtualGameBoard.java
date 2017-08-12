@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class VirtualGameBoard {
 
+    Manager manager;
     public PlayerEnum [][] virtualGameBoard = new PlayerEnum[7][7];
 
     //initialization
@@ -33,9 +34,17 @@ public class VirtualGameBoard {
                 }
 
             }
+           //printLineForVisualization(line);
             System.out.println(line);
         }
     }
+
+public void printLineForVisualization(String line){
+    System.out.println(manager);
+    System.out.println(manager.getVisualization());
+
+    manager.getVisualization().getVisualizationController().setValue(line);
+}
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){
         for(int i = 6; i >= 0; i--){

@@ -168,8 +168,10 @@ public class MoveGenerator {
                     if (winnableChains.get(i).getEndPositionCol() + 1 < 7 && winnableChains.get(i).getEndPositionRow() +1 <7) {
                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow()+1, winnableChains.get(i).getEndPositionCol() +1) != null) {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow()+1, winnableChains.get(i).getEndPositionCol() +1) == PlayerEnum.EMPTY) {
-                               //check falling
-                                if(winnableChains.get(i).getEndPositionRow()==6) {
+
+
+                                //check falling
+                                if(winnableChains.get(i).getEndPositionRow()+1==6) {
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                 } else {
                                     if (winnableChains.get(i).getEndPositionRow() + 2 < 7 && winnableChains.get(i).getEndPositionCol() + 1 < 7) {
@@ -685,37 +687,24 @@ public class MoveGenerator {
         } else {
             //prevent enemy
             if(preventEnemyWin()!=null){
-                //prevention found --> now forecast!
-                //initialize forecastBoard
-                manager.initializeForecastVirtualGameBoard();
-                //add own coin to forecastBoard
-                manager.addCoinToForecastBoard(PlayerEnum.OWN, ownPlayer.getColumnOfMoveAsInt(preventEnemyWin()));
-
-
-                //RIVAL MOVE
-                //swap coins
-                manager.swapPlayerCoinsForecastBoard();
-
-
-                //check all possible rival moves to new constellation
-                for(int i = 0; i < manager.getRemainingColumns().size(); i++){
-
-                }
-
-                // | or new MoveSimple
-
-
-                // noch nicht final
-                if(getOwnWinMove(winSituationDetector.getOwnDetectedChains()) != null) {
-                    plannedMove = getOwnWinMove(winSituationDetector.getOwnDetectedChains());
-                } else {
-                    if(preventEnemyWin()!=null){
-
-                    } else {
-                        getBasicMove(manager.getLastOwnColumn());
-                    }
-                }
-
+//
+//FORECAST
+////                //prevention found --> now forecast!
+////                //initialize forecastBoard
+////                manager.initializeForecastVirtualGameBoard();
+////                //add own coin to forecastBoard
+////                manager.addCoinToForecastBoard(PlayerEnum.OWN, ownPlayer.getColumnOfMoveAsInt(preventEnemyWin()));
+////
+////
+////                //RIVAL MOVE
+////                //swap coins
+////                manager.swapPlayerCoinsForecastBoard();
+////
+////
+////                //check all possible rival moves to new constellation
+////                for(int i = 0; i < manager.getRemainingColumns().size(); i++){
+////
+////                }
 
                 //return move
                 plannedMove = preventEnemyWin();

@@ -211,8 +211,11 @@ public class GUI implements ActionListener, ChangeListener {
 				public void run() {
 					Player[] players = new Player[2];
 
-					players[0] = gameSimulator.playerFromName(p1Name);
-					players[1] = gameSimulator.playerFromName(p2Name);
+//					players[0] = gameSimulator.playerFromName(p1Name);
+//					players[1] = gameSimulator.playerFromName(p2Name);
+
+					players[0] = gameSimulator.playerFromName("CCPlayer");
+					players[1] = gameSimulator.playerFromName("Human");
 
 					position = gameSimulator.singleGameGUI(players);
 					startButton.setEnabled(true);

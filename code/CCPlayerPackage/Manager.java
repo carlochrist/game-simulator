@@ -1,5 +1,6 @@
 package CCPlayerPackage;
 
+import Visualization.Visualization;
 import basic.Move;
 import basic.CCPlayer;
 import basic.Position;
@@ -19,6 +20,9 @@ public class Manager {
     WinSituationDetector winSituationDetector = new WinSituationDetector(this);
     public int lastOwnColumn = 8;
 
+    //Visualization
+    Visualization visualization = new Visualization();
+
     //constructor
     public Manager(CCPlayer ownPlayer){
         this.ownPlayer = ownPlayer;
@@ -35,6 +39,10 @@ public class Manager {
 
     public WinSituationDetector getWinSituationDetector() {
         return winSituationDetector;
+    }
+
+    public Visualization getVisualization(){
+        return visualization;
     }
 
     public int getLastOwnColumn() {
