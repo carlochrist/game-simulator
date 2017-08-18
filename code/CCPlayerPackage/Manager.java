@@ -1,9 +1,7 @@
 package CCPlayerPackage;
 
 import Visualization.Visualization;
-import basic.Move;
-import basic.CCPlayer;
-import basic.Position;
+import basic.*;
 
 import java.util.List;
 
@@ -21,7 +19,9 @@ public class Manager {
     public int lastOwnColumn = 8;
 
     //Visualization
-    Visualization visualization = new Visualization();
+    //GameSimulator gameSimulator = new GameSimulator();
+    Visualization visualization = Main.gs.getVisualization();
+
 
     //constructor
     public Manager(CCPlayer ownPlayer){

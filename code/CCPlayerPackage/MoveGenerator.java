@@ -194,7 +194,7 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow()+1, winnableChains.get(i).getEndPositionCol() -1) != null) {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow()+1, winnableChains.get(i).getEndPositionCol() -1) == PlayerEnum.EMPTY) {
                                 //check falling
-                                if(winnableChains.get(i).getEndPositionRow()==6) {
+                                if(winnableChains.get(i).getEndPositionRow()+1==6) {
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
                                 } else {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow()+2, winnableChains.get(i).getEndPositionCol() -1) != PlayerEnum.EMPTY){
@@ -409,7 +409,7 @@ public class MoveGenerator {
                 if(harmfulEnemyMoves.get(i).getEndPositionCol() + 1 < 7 && harmfulEnemyMoves.get(i).getEndPositionRow() - 1 >= 0){
                     if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-1, harmfulEnemyMoves.get(i).getEndPositionCol() + 1) != null) {
                         if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-1, harmfulEnemyMoves.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
-                            if(harmfulEnemyMoves.get(i).getEndPositionRow()-2 >= 0 && harmfulEnemyMoves.get(i).getEndPositionCol()-2 >= 0){
+                            if(harmfulEnemyMoves.get(i).getEndPositionRow()-2 >= 0 && harmfulEnemyMoves.get(i).getEndPositionCol()+2 < 7){
                                 if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-2, harmfulEnemyMoves.get(i).getEndPositionCol() + 2) != null) {
                                     if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-2, harmfulEnemyMoves.get(i).getEndPositionCol() + 2) == PlayerEnum.RIVAL) {
                                         return getMoveOfColumn(harmfulEnemyMoves.get(i).getEndPositionCol()+1);
@@ -448,7 +448,7 @@ public class MoveGenerator {
                 if(harmfulEnemyMoves.get(i).getEndPositionCol() + 1 < 7 && harmfulEnemyMoves.get(i).getEndPositionRow() - 1 >= 0){
                     if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-1, harmfulEnemyMoves.get(i).getEndPositionCol() + 1) != null) {
                         if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-1, harmfulEnemyMoves.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
-                           if(harmfulEnemyMoves.get(i).getEndPositionRow()-2 >= 0 && harmfulEnemyMoves.get(i).getEndPositionCol()-2 >= 0){
+                           if(harmfulEnemyMoves.get(i).getEndPositionRow()-2 >= 0 && harmfulEnemyMoves.get(i).getEndPositionCol()+2 <7){
                                if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-2, harmfulEnemyMoves.get(i).getEndPositionCol() + 2) != null) {
                                    if (manager.getPlayerEnumAtPosition(harmfulEnemyMoves.get(i).getEndPositionRow()-2, harmfulEnemyMoves.get(i).getEndPositionCol() + 2) == PlayerEnum.RIVAL) {
                                        return getMoveOfColumn(harmfulEnemyMoves.get(i).getEndPositionCol()+1);

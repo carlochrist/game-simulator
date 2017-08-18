@@ -14,8 +14,14 @@ public class VisualizationController {
     @FXML
     TextField virtualGameboardTB;
 
+
     @FXML
     Label label;
+
+
+//    public VisualizationController(){
+//        setTestValue();
+//    }
 
 //    @FXML
 //    protected void buttonPressed(){
@@ -23,6 +29,11 @@ public class VisualizationController {
 //        label.setText(text);
 //        textArea.clear();
 //    }
+
+    @FXML
+    public void setTestValue(){
+        virtualGameboardTB.setText("TEST");
+    }
 
     @FXML
     public void setValue(String value){

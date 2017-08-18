@@ -18,6 +18,8 @@ import java.util.Random;
 public class GameSimulator {
 	Random random = new Random();
 	Visualization visualization;
+	GameSimulator gameSimulator;
+
 	GUI gui;
 	Game game;
 	CompetionSetup competionSetup = new CompetionSetup();
@@ -25,7 +27,6 @@ public class GameSimulator {
 	public GameSimulator() {
 		super();
 		gui = new GUI(this);
-		visualization = new Visualization();
 	}
 
 	public Game getGame() {
@@ -36,11 +37,39 @@ public class GameSimulator {
 		return competionSetup.getPlayerNames();
 	}
 
-	public static void main(String[] args) {
-		GameSimulator simu = new GameSimulator();
-		// simu.singleGame();
-		// simu.competion();
+//	public static void main(String[] args) {
+//		GameSimulator simu = new GameSimulator();
+//		simu.startOverview(args);
+//		// simu.singleGame();
+//		// simu.competion();
+//
+//
+//
+////		Visualization visualization = new Visualization();
+////		visualization.startGUI(args);
+////		simu.setGameSimulator(simu);
+////		simu.setVisualization(visualization);
+//	}
 
+	public void startVisualization(String[] args){
+		visualization = new Visualization();
+		visualization.startGUI(args);
+	}
+
+	public void setVisualization(Visualization visualization){
+		this.visualization = visualization;
+	}
+
+	public void setGameSimulator(GameSimulator gameSimulator){
+		this.gameSimulator = gameSimulator;
+	}
+
+	public Visualization getVisualization(){
+		return visualization;
+	}
+
+	public GameSimulator getGameSimulator(){
+		return gameSimulator;
 	}
 
 	public Position singleGameGUI( Player[] players ) {

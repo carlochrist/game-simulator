@@ -34,14 +34,14 @@ public class VirtualGameBoard {
                 }
 
             }
+            //System.out.println(manager.getVisualization().getVisualizationTest());
            //printLineForVisualization(line);
             System.out.println(line);
         }
     }
 
 public void printLineForVisualization(String line){
-    System.out.println(manager);
-    System.out.println(manager.getVisualization());
+    //System.out.println(manager.getVisualization());
 
     manager.getVisualization().getVisualizationController().setValue(line);
 }
