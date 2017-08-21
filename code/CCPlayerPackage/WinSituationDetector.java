@@ -32,7 +32,7 @@ public class WinSituationDetector {
         checkHorizontalChains();
         checkVerticalChains();
         checkDiagonalChains();
-        printFoundChains();
+        //printFoundChains();
     }
 
     public void checkHorizontalChains(){

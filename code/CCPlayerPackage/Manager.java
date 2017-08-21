@@ -12,8 +12,8 @@ public class Manager {
 
     CCPlayer ownPlayer;
 
-    VirtualGameBoard virtualGameBoard = new VirtualGameBoard();
-    VirtualGameBoard forecastVirtualGameBoard = new VirtualGameBoard();
+    VirtualGameBoard virtualGameBoard = new VirtualGameBoard(this);
+    VirtualGameBoard forecastVirtualGameBoard = new VirtualGameBoard(this);
     MoveGenerator moveGenerator;
     WinSituationDetector winSituationDetector = new WinSituationDetector(this);
     public int lastOwnColumn = 8;

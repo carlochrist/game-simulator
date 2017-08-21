@@ -1,5 +1,7 @@
 package CCPlayerPackage;
 
+import Visualization.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,10 @@ public class VirtualGameBoard {
 
     Manager manager;
     public PlayerEnum [][] virtualGameBoard = new PlayerEnum[7][7];
+
+    public VirtualGameBoard(Manager manager){
+        this.manager = manager;
+    }
 
     //initialization
     public void initializeBoard(){
@@ -35,7 +41,7 @@ public class VirtualGameBoard {
 
             }
             //System.out.println(manager.getVisualization().getVisualizationTest());
-           //printLineForVisualization(line);
+           printLineForVisualization(line);
             System.out.println(line);
         }
     }
@@ -43,7 +49,10 @@ public class VirtualGameBoard {
 public void printLineForVisualization(String line){
     //System.out.println(manager.getVisualization());
 
-    manager.getVisualization().getVisualizationController().setValue(line);
+
+     Visualization visualization = manager.getVisualization();
+     VisualizationController visualizationController = visualization.getVisualizationController();
+     visualizationController.setValue(line);
 }
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){

@@ -10,6 +10,11 @@ import javafx.scene.control.TextField;
  */
 public class VisualizationController {
 
+//    Visualization visualization;
+//
+//    public VisualizationController(Visualization visualization){
+//        this.visualization = visualization;
+//    }
 
     @FXML
     TextField virtualGameboardTB;

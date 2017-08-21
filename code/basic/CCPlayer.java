@@ -50,17 +50,14 @@ public class CCPlayer extends Player {
         manager.printVirtualGameBoard();
 
 
-        //safe lastOwnColumn + return move
-        if(firstRound==true){
+        //end firstRound
+        if(firstRound==true) {
             firstRound = false;
-            //manager.setLastOwnColumn(Integer.parseInt(getColumnOfMoveAsString(manager.getMoveGenerator().getMove(meFirst)))) ;
-            //return manager.getMoveGenerator().getMove(meFirst);
-            manager.setLastOwnColumn(3);
-            return moves.get(3);
-        } else {
-            manager.setLastOwnColumn(getColumnOfMoveAsInt(manager.getMoveGenerator().getPlannedMove()));
-            return manager.getMoveGenerator().getPlannedMove();
         }
+
+        //safe lastOwnColumn + return move
+        manager.setLastOwnColumn(getColumnOfMoveAsInt(manager.getMoveGenerator().getPlannedMove()));
+        return manager.getMoveGenerator().getPlannedMove();
     }
 
     public void ownMove (Manager manager, int col){

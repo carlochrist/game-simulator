@@ -19,15 +19,6 @@ public class DetectedChain {
     }
 
     private ChainType chainType;
-    private boolean winPossible = false;
-
-    public boolean isWinPossible() {
-        return winPossible;
-    }
-
-    public void setWinPossible(boolean winPossible) {
-        this.winPossible = winPossible;
-    }
 
     public void resetSize(){
         size = 0;

@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args){
         gs = new GameSimulator();
-        //gs.startOverview(args);
+        gs.startVisualization(args);
     }
 
 

@@ -33,8 +33,12 @@ public class Visualization extends Application {
         primaryStage.setTitle("Visualization");
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.show();
-        visualizationController = new VisualizationController();
+        //visualizationController = new VisualizationController();
 
+    }
+
+    public Visualization(){
+        this.visualizationController = new VisualizationController();
     }
 
     public VisualizationController getVisualizationController() {
