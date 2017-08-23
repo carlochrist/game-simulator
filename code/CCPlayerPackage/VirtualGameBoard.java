@@ -50,9 +50,11 @@ public void printLineForVisualization(String line){
     //System.out.println(manager.getVisualization());
 
 
-     Visualization visualization = manager.getVisualization();
-     VisualizationController visualizationController = visualization.getVisualizationController();
-     visualizationController.setValue(line);
+//     Visualization visualization = manager.getVisualization();
+//     VisualizationController visualizationController = visualization.getVisualizationController();
+//     visualizationController.setValue(line);
+
+    manager.getVisualization().getVisualizationController().setValue(line);
 }
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){

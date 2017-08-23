@@ -1,6 +1,7 @@
 package Visualization;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,12 +17,33 @@ public class VisualizationController {
 //        this.visualization = visualization;
 //    }
 
+//    public VisualizationController() {
+//        this.virtualGameboardTB = new TextField();
+//    }
+
+    private VisualizationController visualizationController;
+
+    @FXML
+    Button btn_test;
+
+    @FXML
+    TextArea ta_virtualGameboard;
+
+    @FXML
+    TextField tf_virtualGameboard;
+
     @FXML
     TextField virtualGameboardTB;
 
+    @FXML
+    private TextField getVirtualGameboardTB;
 
     @FXML
     Label label;
+
+    public VisualizationController() {
+
+    }
 
 
 //    public VisualizationController(){
@@ -35,13 +57,16 @@ public class VisualizationController {
 //        textArea.clear();
 //    }
 
-    @FXML
-    public void setTestValue(){
+
+    public void setTestValue() {
         virtualGameboardTB.setText("TEST");
     }
 
-    @FXML
-    public void setValue(String value){
-        virtualGameboardTB.setText(virtualGameboardTB.getText()+value);
+    public void setValue(String value) {
+//        this.virtualGameboardTB = new TextField();
+////        this.virtualGameboardTB.setText(virtualGameboardTB.getText() + value);
+//        this.virtualGameboardTB.setText("123");
+        //this.ta_virtualGameboard = new TextArea();
+        ta_virtualGameboard.setText(value);
     }
 }
