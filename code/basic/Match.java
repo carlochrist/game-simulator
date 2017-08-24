@@ -34,6 +34,13 @@ public class Match {
 			
 			Game game = new Game();
 			Player winner = game.play(players);
+			System.out.println("*******************************");
+			System.out.println("***********WINNER**************");
+			System.out.println(winner);
+			if(!winner.toString().equals("CCPlayer P1 (1400)")){
+				System.out.println("NICHT GUT");
+			}
+			System.out.println("*******************************");
 			System.out.println(p1 + " - " + p2 + " Winner:" + winner);
 			System.out.println( game.getPosition().showHistory() );
 			if (winner == null) {

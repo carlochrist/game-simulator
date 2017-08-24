@@ -60,6 +60,13 @@ public class CCPlayer extends Player {
         return manager.getMoveGenerator().getPlannedMove();
     }
 
+    @Override
+    public void reset(){
+        manager = new Manager(this);
+        //manager.createMoveGenerator(p, moves);
+        manager.initializeVirtualGameBoard();
+    }
+
     public void ownMove (Manager manager, int col){
         manager.addCoinToBoard(PlayerEnum.OWN, col);
     }

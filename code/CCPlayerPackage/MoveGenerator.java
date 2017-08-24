@@ -43,6 +43,10 @@ public class MoveGenerator {
             }
         }
 
+        //specialWinMoves
+        //TODO: two own coins with emoty coins to the left and right and one empty coin in the middle them
+        //TODO two own coins left and right empty AND left or right +2 1 empty --> set in middle!
+
         //VERTICAL
         for(int i = 0; i < winnableChains.size(); i++){
             if(winnableChains.get(i).getChainType()==ChainType.VERTICAL){
@@ -556,12 +560,12 @@ public class MoveGenerator {
         for(int i = 0; i < harmfulEnemyChains.size(); i++) {
             if (harmfulEnemyChains.get(i).getChainType() == ChainType.DIAGONAL_TOP_LEFT) {
                 if (harmfulEnemyChains.get(i).getSize() == 3) {
-                    if (harmfulEnemyChains.get(i).getStartPositionCol() - 1 >= 0 && harmfulEnemyChains.get(i).getStartPositionRow() -1 >=0) {
-                        if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getStartPositionRow()-1, harmfulEnemyChains.get(i).getStartPositionCol() -1) != null) {
-                            if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getStartPositionRow()-1, harmfulEnemyChains.get(i).getStartPositionCol() -1) == PlayerEnum.EMPTY) {
+                    if (harmfulEnemyChains.get(i).getEndPositionCol() - 1 >= 0 && harmfulEnemyChains.get(i).getEndPositionRow() -1 >=0) {
+                        if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getEndPositionRow()-1, harmfulEnemyChains.get(i).getEndPositionCol() -1) != null) {
+                            if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getEndPositionRow()-1, harmfulEnemyChains.get(i).getEndPositionCol() -1) == PlayerEnum.EMPTY) {
                                 //check falling
-                                if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getStartPositionRow(), harmfulEnemyChains.get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                    return getMoveOfColumn(harmfulEnemyChains.get(i).getStartPositionCol() - 1);
+                                if (manager.getPlayerEnumAtPosition(harmfulEnemyChains.get(i).getEndPositionRow(), harmfulEnemyChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                    return getMoveOfColumn(harmfulEnemyChains.get(i).getEndPositionCol() - 1);
                                 }
                             }
                         }
@@ -755,14 +759,14 @@ public class MoveGenerator {
         //get not blocked move, if no own or enemy-prevention-move
         if(plannedMove == null) {
             if (meFirst == true) {
-                return plannedMove = getMoveOfColumn(4);
+                return plannedMove = getMoveOfColumn(3);
             } else {
                 Random random = new Random();
                 //moves.get(random.nextInt(moves.size()))
                 //int randomValue = random.nextInt((notBlockedMoves.size())+1)-1;
                 System.out.println("NOTBLOCKED MOVES");
                 System.out.println(notBlockedMoves.size());
-                if(notBlockedMoves.size()!=0){
+                if (notBlockedMoves.size() != 0) {
                     plannedMove = getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
                 } else {
                     return plannedMove = getMoveOfColumn(4);

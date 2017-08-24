@@ -41,7 +41,7 @@ public class VirtualGameBoard {
 
             }
             //System.out.println(manager.getVisualization().getVisualizationTest());
-           printLineForVisualization(line);
+           //printLineForVisualization(line);
             System.out.println(line);
         }
     }
