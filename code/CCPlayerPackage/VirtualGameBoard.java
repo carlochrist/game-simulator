@@ -88,6 +88,18 @@ public void printLineForVisualization(String line){
         return columnList;
     }
 
+    public int countEnemyCoinsOnBoard(){
+        int count = 0;
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
 
 
 
