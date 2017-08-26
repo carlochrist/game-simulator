@@ -13,7 +13,7 @@ public class Manager {
     CCPlayer ownPlayer;
 
     VirtualGameBoard virtualGameBoard = new VirtualGameBoard(this);
-    VirtualGameBoard forecastVirtualGameBoard = new VirtualGameBoard(this);
+    VirtualForeCastGameBoard virtualForecastGameBoard = new VirtualForeCastGameBoard(this);
     MoveGenerator moveGenerator;
     WinSituationDetector winSituationDetector = new WinSituationDetector(this);
     public int lastOwnColumn = 8;
@@ -65,7 +65,7 @@ public class Manager {
         PlayerEnum playerEnum = virtualGameBoard.getPlayerEnumAtPosition(row, column);
         return playerEnum;
     }
-    public void addCoinToBoard(PlayerEnum playerEnum, int col){
+    public void addCoinToVirtualGameBoard(PlayerEnum playerEnum, int col){
         virtualGameBoard.addCoinToBoard(playerEnum, col);
     }
     public List<Integer> getRemainingColumns(){
@@ -78,26 +78,39 @@ public class Manager {
         this.virtualGameBoard = virtualGameBoard;
     }
 
-    //forecastVirtualGameBoard
+
+
+    //virtualForecastGameBoard
     public void initializeForecastVirtualGameBoard(){
-        forecastVirtualGameBoard = virtualGameBoard;
+        virtualForecastGameBoard.initializeBoard();
     }
     public void printForecastVirtualGameBoard(){
-        forecastVirtualGameBoard.printBoard();
+        virtualForecastGameBoard.printBoard();
+    }
+
+    public void addCoinToVirtualForeCastGameBoard(PlayerEnum playerEnum, int col){
+        virtualGameBoard.addCoinToBoard(playerEnum, col);
     }
     public PlayerEnum getPlayerEnumAtPositionForecast(int row, int column){
-        PlayerEnum playerEnum = forecastVirtualGameBoard.getPlayerEnumAtPosition(row, column);
+        PlayerEnum playerEnum = virtualForecastGameBoard.getPlayerEnumAtPosition(row, column);
         return playerEnum;
     }
     public void addCoinToForecastBoard(PlayerEnum playerEnum, int col){
-        forecastVirtualGameBoard.addCoinToBoard(playerEnum, col);
+        virtualForecastGameBoard.addCoinToBoard(playerEnum, col);
     }
     public void addCoinToForecastBoardAtPosition(PlayerEnum playerEnum, int row, int col){
-        forecastVirtualGameBoard.addCoinToSpecificPosition(playerEnum, row, col);
+        virtualForecastGameBoard.addCoinToSpecificPosition(playerEnum, row, col);
     }
     public List<Integer> getRemainingColumnsForecast(){
-        return forecastVirtualGameBoard.getRemainingColumns();
+        return virtualForecastGameBoard.getRemainingColumns();
     }
+
+
+
+
+
+
+
 
     public void swapPlayerCoinsForecastBoard(){
         for(int i = 0; i < 7; i++){

@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by Carlo on 02.05.2017.
  */
-public class VirtualGameBoard {
+public class VirtualForeCastGameBoard {
 
     Manager manager;
-    public PlayerEnum [][] virtualGameBoard = new PlayerEnum[7][7];
+    public PlayerEnum [][] virtualForeCastGameBoard = new PlayerEnum[7][7];
 
-    public VirtualGameBoard(Manager manager){
+    public VirtualForeCastGameBoard(Manager manager){
         this.manager = manager;
     }
 
@@ -21,7 +21,7 @@ public class VirtualGameBoard {
     public void initializeBoard(){
         for (int i = 0; i < 7; i++){
             for (int j = 0; j < 7; j++){
-                virtualGameBoard[i][j] = PlayerEnum.EMPTY;
+                virtualForeCastGameBoard[i][j] = PlayerEnum.EMPTY;
             }
         }
     }
@@ -33,58 +33,58 @@ public class VirtualGameBoard {
         for (int i = 0; i < 7; i++){
             line = "Row " + i + ": | ";
             for (int j = 0; j < 7; j++){
-                if(virtualGameBoard[i][j] == PlayerEnum.OWN){
-                    line += virtualGameBoard[i][j] + "   | ";
+                if(virtualForeCastGameBoard[i][j] == PlayerEnum.OWN){
+                    line += virtualForeCastGameBoard[i][j] + "   | ";
                 } else{
-                    line += virtualGameBoard[i][j] + " | ";
+                    line += virtualForeCastGameBoard[i][j] + " | ";
                 }
 
             }
             //System.out.println(manager.getVisualization().getVisualizationTest());
-           //printLineForVisualization(line);
+            //printLineForVisualization(line);
             System.out.println(line);
         }
     }
 
-public void printLineForVisualization(String line){
-    //System.out.println(manager.getVisualization());
+    public void printLineForVisualization(String line){
+        //System.out.println(manager.getVisualization());
 
 
 //     Visualization visualization = manager.getVisualization();
 //     VisualizationController visualizationController = visualization.getVisualizationController();
 //     visualizationController.setValue(line);
 
-    manager.getVisualization().getVisualizationController().setValue(line);
-}
+        manager.getVisualization().getVisualizationController().setValue(line);
+    }
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){
         for(int i = 6; i >= 0; i--){
-                if(virtualGameBoard[i][col-1]==PlayerEnum.EMPTY){
-                    virtualGameBoard[i][col-1] = playerEnum;
+                if(virtualForeCastGameBoard[i][col-1]==PlayerEnum.EMPTY){
+                    virtualForeCastGameBoard[i][col-1] = playerEnum;
                     break;
                 }
             }
-    }
+        }
 
     public void addCoinToSpecificPosition(PlayerEnum playerEnum, int row, int col){
-                virtualGameBoard[row][col] = playerEnum;
+        virtualForeCastGameBoard[row][col] = playerEnum;
     }
 
-    public PlayerEnum [][] getVirtualGameBoard(){
-        return virtualGameBoard;
+    public PlayerEnum [][] getvirtualForeCastGameBoard(){
+        return virtualForeCastGameBoard;
     }
 
     public PlayerEnum getPlayerEnumAtPosition(int row, int column){
-        return virtualGameBoard[row][column];
+        return virtualForeCastGameBoard[row][column];
     }
 
     public List<Integer> getRemainingColumns(){
         List<Integer> columnList = new ArrayList<>();
-            for (int i = 0; i < 7; i++){
-                if(virtualGameBoard[0][i] == PlayerEnum.EMPTY){
-                    columnList.add(i);
-                }
+        for (int i = 0; i < 7; i++){
+            if(virtualForeCastGameBoard[0][i] == PlayerEnum.EMPTY){
+                columnList.add(i);
             }
+        }
         return columnList;
     }
 

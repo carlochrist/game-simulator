@@ -1,8 +1,10 @@
 package CCPlayerPackage;
 
+import basic.GUI;
 import basic.Move;
 import basic.CCPlayer;
 import basic.Position;
+import plotter.Sleep;
 
 import java.util.*;
 
@@ -271,6 +273,7 @@ public class MoveGenerator {
 
         //BLOCK COLUMNS
         blockColumns(harmfulRivalChains, PlayerEnum.RIVAL);
+
 
         //VERTICAL
         for (int i = 0; i < harmfulRivalChains.size(); i++) {
@@ -822,6 +825,46 @@ public class MoveGenerator {
         return getMoveOfColumn(random.nextInt(notBlockedMoves.size()));
     }
 
+    public Move improveOwn2CoinChains(List<Integer> notBlockedMoves) {
+        //vertical
+        for (int i = 0; i < winSituationDetector.getOwnDetectedChains().size(); i++) {
+            if (winSituationDetector.getOwnDetectedChains().get(i).getChainType() == ChainType.VERTICAL &&
+                    winSituationDetector.getOwnDetectedChains().get(i).getSize() == 2) {
+                if (winSituationDetector.getOwnDetectedChains().get(i).getStartPositionRow() - 1 >= 0) {
+                    if (manager.getPlayerEnumAtPosition(
+                            winSituationDetector.getOwnDetectedChains().get(i).getStartPositionRow() - 1,
+                            winSituationDetector.getOwnDetectedChains().get(i).getStartPositionCol()) == PlayerEnum.EMPTY) {
+                        return getMoveOfColumn(winSituationDetector.getOwnDetectedChains().get(i).getStartPositionCol());
+                    }
+                }
+            }
+        }
+
+        //TODO: other chains
+
+
+
+        return null;
+    }
+
+
+    public List<Integer>  getNotBlockedMovesOfRemainingColumns(){
+        List<Integer> notBlockedMoves = manager.getVirtualGameBoard().getRemainingColumns();
+        for (int i = 0; i < manager.getVirtualGameBoard().getRemainingColumns().size(); i++) {
+            for (int j = 0; j < blockedColumns.size(); j++) {
+                if (manager.getVirtualGameBoard().getRemainingColumns().get(i) == blockedColumns.get(j)) {
+                    //only remove from blocked moves if there are at least 2 possible ones
+                    if (notBlockedMoves.size() >= 2) {
+                        notBlockedMoves.remove(manager.getVirtualGameBoard().getRemainingColumns().get(i));
+                    }
+                }
+            }
+        }
+        return notBlockedMoves;
+    }
+
+
+
 
     public Move getMove(boolean meFirst) {
 
@@ -836,24 +879,26 @@ public class MoveGenerator {
         } else {
             //prevent enemy
             if (preventEnemyWin() != null) {
+
+////FORECAST
+//                //prevention found --> now forecast!
+//                //initialize forecastBoard
+//                manager.initializeForecastVirtualGameBoard();
+//                //add own coin to forecastBoard
+//                manager.addCoinToForecastBoard(PlayerEnum.OWN, ownPlayer.getColumnOfMoveAsInt(preventEnemyWin()));
 //
-//FORECAST
-////                //prevention found --> now forecast!
-////                //initialize forecastBoard
-////                manager.initializeForecastVirtualGameBoard();
-////                //add own coin to forecastBoard
-////                manager.addCoinToForecastBoard(PlayerEnum.OWN, ownPlayer.getColumnOfMoveAsInt(preventEnemyWin()));
-////
-////
-////                //RIVAL MOVE
-////                //swap coins
-////                manager.swapPlayerCoinsForecastBoard();
-////
-////
-////                //check all possible rival moves to new constellation
-////                for(int i = 0; i < manager.getRemainingColumns().size(); i++){
-////
-////                }
+//
+//                //RIVAL MOVE
+//                //swap coins
+//                manager.swapPlayerCoinsForecastBoard();
+//
+//
+//                //check all possible rival moves to new constellation
+
+
+
+
+
 
                 //return move
                 plannedMove = preventEnemyWin();
@@ -862,17 +907,7 @@ public class MoveGenerator {
 
         //check if move is on blocked list
 
-        List<Integer> notBlockedMoves = manager.getVirtualGameBoard().getRemainingColumns();
-        for (int i = 0; i < manager.getVirtualGameBoard().getRemainingColumns().size(); i++) {
-            for (int j = 0; j < blockedColumns.size(); j++) {
-                if (manager.getVirtualGameBoard().getRemainingColumns().get(i) == blockedColumns.get(j)) {
-                    //only remove from blocked moves if there are at least 2 possible ones
-                    if (notBlockedMoves.size() >= 2) {
-                        notBlockedMoves.remove(manager.getVirtualGameBoard().getRemainingColumns().get(i));
-                    }
-                }
-            }
-        }
+        List<Integer> notBlockedMoves = getNotBlockedMovesOfRemainingColumns();
 
         //get not blocked move, if no own or enemy-prevention-move
         if (plannedMove == null) {
@@ -891,6 +926,9 @@ public class MoveGenerator {
                 }
             }
 
+        //improve own chains
+
+
         //get basic, not blocked move
         if (plannedMove == null) {
             plannedMove = notBlockedOwnChainImproveMove(notBlockedMoves);
@@ -907,6 +945,43 @@ public class MoveGenerator {
         //or basic move
         //TODO: combine this! plannedMove = getBasicMove(manager.getLastOwnColumn());
     }
+
+
+
+        //initialize forecastBoard (copy coins from virtualGameBoard to forecastBoard)
+        manager.initializeForecastVirtualGameBoard();
+
+        //add own coin to forecastBoard
+        manager.addCoinToForecastBoard(PlayerEnum.OWN, Integer.parseInt(getColumnOfMoveAsString(plannedMove)));
+
+
+
+//        //FORECAST NEXT TWO RIVAL MOVES
+//        List<ForecastObject> forecastObjects = new ArrayList<>();
+//        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
+//            //create new forecast-object
+//            ForecastObject forecastObject = new ForecastObject(manager);
+//            forecastObject.setColumn(manager.getRemainingColumns().get(i));
+//            manager.addCoinToForecastBoard(PlayerEnum.RIVAL, manager.getRemainingColumns().get(i));
+//            forecastObject.setWin(checkOwnWin());
+//        }
+
+//        for( Move m : moves ) {
+//            p.move( m );
+//            if( p.isWin() ) {
+//                return m;
+//            }
+//            p.undo();
+//        }
+//
+//
+//        rivalMove(manager, p);
+//        manager.getWinSituationDetector().checkAllChains();
+//        ownMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
+//
+//        //safe lastOwnColumn + return move
+//        manager.setLastOwnColumn(getColumnOfMoveAsInt(manager.getMoveGenerator().getPlannedMove()));
+//        return manager.getMoveGenerator().getPlannedMove();
 
 
     //restore virtualGameBoard
@@ -936,5 +1011,36 @@ public class MoveGenerator {
         String moveString = move.toString();
         return Character.toString(moveString.charAt(moveString.length() - 2));
     }
+
+
+    private boolean checkOwnWin() {
+        boolean win = false;
+
+        manager.winSituationDetector.checkAllChains();
+
+        //check win own chains
+        for(int i = 0; i < manager.winSituationDetector.getOwnDetectedChains().size(); i++){
+            if(manager.winSituationDetector.getOwnDetectedChains().get(i).getSize()==4){
+                win = true;
+            }
+        }
+        return win;
+    }
+
+    private boolean checkRivalWin() {
+        boolean win = false;
+
+        manager.winSituationDetector.checkAllChains();
+
+        //check win own chains
+        for(int i = 0; i < manager.winSituationDetector.getRivalDetectedChains().size(); i++){
+            if(manager.winSituationDetector.getRivalDetectedChains().get(i).getSize()==4){
+                win = true;
+            }
+        }
+        return win;
+    }
+
+
 }
 

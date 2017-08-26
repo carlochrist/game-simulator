@@ -2,8 +2,6 @@ package basic;
 
 import CCPlayerPackage.Manager;
 import CCPlayerPackage.PlayerEnum;
-import Visualization.Visualization;
-import Visualization.VisualizationController;
 
 import java.util.List;
 
@@ -34,17 +32,17 @@ public class CCPlayer extends Player {
             if(p.getLastMove() == null){
                 //System.out.println("Eigener Spieler beginnt!");
                 meFirst = true;
-                ownMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
+                setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
             } else {
                 //System.out.println("Gegner hat begonnen!");
-                rivalMove(manager, p);
+                setRivalMove(manager, p);
                 meFirst = false;
-                ownMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
+                setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
             }
         } else {
-            rivalMove(manager, p);
+            setRivalMove(manager, p);
             manager.getWinSituationDetector().checkAllChains();
-            ownMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
+            setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
         }
 
         manager.printVirtualGameBoard();
@@ -67,14 +65,14 @@ public class CCPlayer extends Player {
         manager.initializeVirtualGameBoard();
     }
 
-    public void ownMove (Manager manager, int col){
-        manager.addCoinToBoard(PlayerEnum.OWN, col);
+    public void setOwnMove(Manager manager, int col){
+        manager.addCoinToVirtualGameBoard(PlayerEnum.OWN, col);
     }
 
-    private void rivalMove(Manager manager, Position p){
+    private void setRivalMove(Manager manager, Position p){
         String lastMove = getColumnOfMoveAsString(p.getLastMove());
         //System.out.println("letzter Zug des Gegners in Spalte: " + lastMove);
-        manager.addCoinToBoard(PlayerEnum.RIVAL, Integer.parseInt(lastMove));
+        manager.addCoinToVirtualGameBoard(PlayerEnum.RIVAL, Integer.parseInt(lastMove));
     }
 
     public String getColumnOfMoveAsString(Move move)

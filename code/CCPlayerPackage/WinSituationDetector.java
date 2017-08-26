@@ -10,12 +10,13 @@ public class WinSituationDetector {
 
     Manager manager;
 
-    public List<DetectedChain> ownDetectedChains = new ArrayList<>();
-    public List<DetectedChain> rivalDetectedChains = new ArrayList<>();
-
     public WinSituationDetector(Manager manager){
         this.manager = manager;
     }
+
+    //virtualGameBoard
+    public List<DetectedChain> ownDetectedChains = new ArrayList<>();
+    public List<DetectedChain> rivalDetectedChains = new ArrayList<>();
 
     public List<DetectedChain> getOwnDetectedChains() {
         return ownDetectedChains;
@@ -25,17 +26,41 @@ public class WinSituationDetector {
         return rivalDetectedChains;
     }
 
+    //forecastBoard
+    public List<DetectedChain> ownDetectedForecastChains = new ArrayList<>();
+    public List<DetectedChain> rivalDetectedForecastChains = new ArrayList<>();
+
+    public List<DetectedChain> getOwnDetectedForecastChains() {
+        return ownDetectedForecastChains;
+    }
+
+    public List<DetectedChain> getRivalDetectedForecastChains() {
+        return rivalDetectedForecastChains;
+    }
+
+
     public void checkAllChains(){
         ownDetectedChains = new ArrayList<>();
         rivalDetectedChains = new ArrayList<>();
 
-        checkHorizontalChains();
-        checkVerticalChains();
-        checkDiagonalChains();
+        checkHorizontalChains(true);
+        checkVerticalChains(true);
+        checkDiagonalChains(true);
         //printFoundChains();
     }
 
-    public void checkHorizontalChains(){
+    public void checkAllChainsForecast(){
+        ownDetectedForecastChains = new ArrayList<>();
+        rivalDetectedForecastChains = new ArrayList<>();
+
+        checkHorizontalChains(false);
+        checkVerticalChains(false);
+        checkDiagonalChains(false);
+        //printFoundChains();
+    }
+
+
+    public void checkHorizontalChains(boolean virtualGameBoard){
 
         boolean ownRowDetected = false;
         boolean rivalRowDetected = false;
@@ -45,75 +70,141 @@ public class WinSituationDetector {
         //OWN
         for (int i = 6; i >= 0; i--) {
             for (int j = 0; j < 7; j++) {
-                if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
-                    //Bereits ein/mehrere Coins vorliegend
-                    if (ownRowDetected == true) {
-                        detectedChain.setSize(detectedChain.getSize()+1);
-                        //Ende der Row
-                        if(j == 6){
-                            safeFoundChain(detectedChain, i, j, PlayerEnum.OWN);
-                            detectedChain = new DetectedChain();
-                            ownRowDetected = false;
+                if(virtualGameBoard){
+                    if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (ownRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            //Ende der Row
+                            if(j == 6){
+                                safeFoundChain(detectedChain, i, j, PlayerEnum.OWN, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                ownRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            ownRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(i);
+                            detectedChain.setStartPositionCol(j);
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            detectedChain.setChainType(ChainType.HORIZONTAL);
                         }
-                    } else {
-                        //Erster Coin gefunden
-                        ownRowDetected = true;
-                        //neue Chain mit Werten initialiseren
-                        detectedChain.resetSize();
-                        detectedChain.setStartPositionRow(i);
-                        detectedChain.setStartPositionCol(j);
-                        detectedChain.setSize(detectedChain.getSize()+1);
-                        detectedChain.setChainType(ChainType.HORIZONTAL);
-                    }
-                } else
+                    } else
                     //Kein Coin (mehr) gefunden
                     {
                         ownRowDetected = false;
                         if(detectedChain.getSize() >= 2){
-                            safeFoundChain(detectedChain, i, j-1, PlayerEnum.OWN);
+                            safeFoundChain(detectedChain, i, j-1, PlayerEnum.OWN, virtualGameBoard);
                             detectedChain = new DetectedChain();
-                            }
                         }
+                    }
+                } else  {
+                    if(manager.getPlayerEnumAtPositionForecast(i, j) == PlayerEnum.OWN) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (ownRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            //Ende der Row
+                            if(j == 6){
+                                safeFoundChain(detectedChain, i, j, PlayerEnum.OWN, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                ownRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            ownRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(i);
+                            detectedChain.setStartPositionCol(j);
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            detectedChain.setChainType(ChainType.HORIZONTAL);
+                        }
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        ownRowDetected = false;
+                        if(detectedChain.getSize() >= 2){
+                            safeFoundChain(detectedChain, i, j-1, PlayerEnum.OWN, virtualGameBoard);
+                            detectedChain = new DetectedChain();
+                        }
+                    }
+                }
+
                 }
             }
 
         //RIVAL
         for (int i = 6; i >= 0; i--) {
             for (int j = 0; j < 7; j++) {
-                if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
-                    //Bereits ein/mehrere Coins vorliegend
-                    if (rivalRowDetected == true) {
-                        detectedChain.setSize(detectedChain.getSize()+1);
-                        //Ende der Row
-                        if(j == 6){
-                            safeFoundChain(detectedChain, i, j, PlayerEnum.RIVAL);
-                            detectedChain = new DetectedChain();
-                            rivalRowDetected = false;
+                if(virtualGameBoard){
+                    if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (rivalRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            //Ende der Row
+                            if(j == 6){
+                                safeFoundChain(detectedChain, i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                rivalRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            rivalRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(i);
+                            detectedChain.setStartPositionCol(j);
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            detectedChain.setChainType(ChainType.HORIZONTAL);
                         }
-                    } else {
-                        //Erster Coin gefunden
-                        rivalRowDetected = true;
-                        //neue Chain mit Werten initialiseren
-                        detectedChain.resetSize();
-                        detectedChain.setStartPositionRow(i);
-                        detectedChain.setStartPositionCol(j);
-                        detectedChain.setSize(detectedChain.getSize()+1);
-                        detectedChain.setChainType(ChainType.HORIZONTAL);
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        rivalRowDetected = false;
+                        if(detectedChain.getSize() >= 2){
+                            safeFoundChain(detectedChain, i, j-1, PlayerEnum.RIVAL, virtualGameBoard);
+                            detectedChain = new DetectedChain();
+                        }
                     }
-                } else
-                //Kein Coin (mehr) gefunden
-                {
-                    rivalRowDetected = false;
-                    if(detectedChain.getSize() >= 2){
-                        safeFoundChain(detectedChain, i, j-1, PlayerEnum.RIVAL);
-                        detectedChain = new DetectedChain();
+                } else {
+                    if(manager.getPlayerEnumAtPositionForecast(i, j) == PlayerEnum.RIVAL) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (rivalRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            //Ende der Row
+                            if(j == 6){
+                                safeFoundChain(detectedChain, i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                rivalRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            rivalRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(i);
+                            detectedChain.setStartPositionCol(j);
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                            detectedChain.setChainType(ChainType.HORIZONTAL);
+                        }
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        rivalRowDetected = false;
+                        if(detectedChain.getSize() >= 2){
+                            safeFoundChain(detectedChain, i, j-1, PlayerEnum.RIVAL, virtualGameBoard);
+                            detectedChain = new DetectedChain();
+                        }
                     }
                 }
+
             }
         }
         }
 
-    public void checkVerticalChains() {
+    public void checkVerticalChains(boolean virtualGameBoard) {
 
         boolean ownRowDetected = false;
         boolean rivalRowDetected = false;
@@ -123,33 +214,65 @@ public class WinSituationDetector {
         //OWN
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.OWN) {
-                    //Bereits ein/mehrere Coins vorliegend
-                    if (ownRowDetected == true) {
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                        //Ende der Col
-                        if (j == 6) {
-                            safeFoundChain(detectedChain, j, i, PlayerEnum.OWN);
-                            detectedChain = new DetectedChain();
-                            ownRowDetected = false;
+                if(virtualGameBoard){
+                    if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.OWN) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (ownRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            //Ende der Col
+                            if (j == 6) {
+                                safeFoundChain(detectedChain, j, i, PlayerEnum.OWN, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                ownRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            ownRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(j);
+                            detectedChain.setStartPositionCol(i);
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            detectedChain.setChainType(ChainType.VERTICAL);
                         }
-                    } else {
-                        //Erster Coin gefunden
-                        ownRowDetected = true;
-                        //neue Chain mit Werten initialiseren
-                        detectedChain.resetSize();
-                        detectedChain.setStartPositionRow(j);
-                        detectedChain.setStartPositionCol(i);
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                        detectedChain.setChainType(ChainType.VERTICAL);
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        ownRowDetected = false;
+                        if (detectedChain.getSize() >= 2) {
+                            safeFoundChain(detectedChain, j-1, i, PlayerEnum.OWN, virtualGameBoard);
+                            detectedChain = new DetectedChain();
+                        }
                     }
-                } else
-                //Kein Coin (mehr) gefunden
-                {
-                    ownRowDetected = false;
-                    if (detectedChain.getSize() >= 2) {
-                        safeFoundChain(detectedChain, j-1, i, PlayerEnum.OWN);
-                        detectedChain = new DetectedChain();
+                } else {
+                    if (manager.getPlayerEnumAtPositionForecast(j, i) == PlayerEnum.OWN) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (ownRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            //Ende der Col
+                            if (j == 6) {
+                                safeFoundChain(detectedChain, j, i, PlayerEnum.OWN, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                ownRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            ownRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(j);
+                            detectedChain.setStartPositionCol(i);
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            detectedChain.setChainType(ChainType.VERTICAL);
+                        }
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        ownRowDetected = false;
+                        if (detectedChain.getSize() >= 2) {
+                            safeFoundChain(detectedChain, j-1, i, PlayerEnum.OWN, virtualGameBoard);
+                            detectedChain = new DetectedChain();
+                        }
                     }
                 }
             }
@@ -158,254 +281,471 @@ public class WinSituationDetector {
         //RIVAL
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.RIVAL) {
-                    //Bereits ein/mehrere Coins vorliegend
-                    if (rivalRowDetected == true) {
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                        //Ende der Col
-                        if (j == 6) {
-                            safeFoundChain(detectedChain, j, i, PlayerEnum.RIVAL);
+                if(virtualGameBoard){
+                    if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.RIVAL) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (rivalRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            //Ende der Col
+                            if (j == 6) {
+                                safeFoundChain(detectedChain, j, i, PlayerEnum.RIVAL, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                rivalRowDetected = false;
+                            }
+                        } else {
+                            //Erster Coin gefunden
+                            rivalRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(j);
+                            detectedChain.setStartPositionCol(i);
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            detectedChain.setChainType(ChainType.VERTICAL);
+                        }
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        rivalRowDetected = false;
+                        if (detectedChain.getSize() >= 2) {
+                            safeFoundChain(detectedChain, j, i-1, PlayerEnum.RIVAL, virtualGameBoard);
                             detectedChain = new DetectedChain();
-                            rivalRowDetected = false;
                         }
-                    } else {
-                        //Erster Coin gefunden
-                        rivalRowDetected = true;
-                        //neue Chain mit Werten initialiseren
-                        detectedChain.resetSize();
-                        detectedChain.setStartPositionRow(j);
-                        detectedChain.setStartPositionCol(i);
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                        detectedChain.setChainType(ChainType.VERTICAL);
-                    }
-                } else
-                //Kein Coin (mehr) gefunden
-                {
-                    rivalRowDetected = false;
-                    if (detectedChain.getSize() >= 2) {
-                        safeFoundChain(detectedChain, j, i-1, PlayerEnum.RIVAL);
-                        detectedChain = new DetectedChain();
-                    }
-                }
-            }
-        }
-    }
-
-    private void checkDiagonalTopRight(int i, int j, PlayerEnum playerEnum){
-        int tempI = i;
-        int tempJ = j;
-        boolean chainDetected = false;
-        DetectedChain detectedChain = new DetectedChain();
-
-        while(tempI > 0 && tempJ < 6){
-        if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) != null){
-            if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) == playerEnum){
-                if(chainDetected == false){
-                    chainDetected = true;
-                    detectedChain.setStartPositionRow(tempI);
-                    detectedChain.setStartPositionCol(tempJ);
-                    detectedChain.setSize(detectedChain.getSize()+2);
-                    detectedChain.setChainType(ChainType.DIAGONAL_TOP_RIGHT);
-                } else {
-                    detectedChain.setSize(detectedChain.getSize()+1);
-                }
-            } else {
-                if(detectedChain.getSize()>=2) {
-                    detectedChain.setEndPositionRow(tempI);
-                    detectedChain.setEndPositionCol(tempJ);
-                    if(playerEnum == PlayerEnum.OWN){
-                        ownDetectedChains.add(detectedChain);
-                    } else {
-                        rivalDetectedChains.add(detectedChain);
-                    }
-                }
-                return;
-            }
-        }
-            tempI--;
-            tempJ++;
-        }
-        if(detectedChain.getSize()>=2) {
-            detectedChain.setEndPositionRow(tempI);
-            detectedChain.setEndPositionCol(tempJ);
-            if(playerEnum == PlayerEnum.OWN){
-                ownDetectedChains.add(detectedChain);
-            } else {
-                rivalDetectedChains.add(detectedChain);
-            }
-        }
-    }
-
-    private void checkDiagonalTopLeft(int i, int j, PlayerEnum playerEnum){
-        int tempI = i;
-        int tempJ = j;
-        boolean chainDetected = false;
-        DetectedChain detectedChain = new DetectedChain();
-
-        while(tempI > 0 && tempJ > 0) {
-            if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) != null) {
-                if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) == playerEnum) {
-                    if (chainDetected == false) {
-                        chainDetected = true;
-                        detectedChain.setStartPositionRow(tempI);
-                        detectedChain.setStartPositionCol(tempJ);
-                        detectedChain.setSize(detectedChain.getSize() + 2);
-                        detectedChain.setChainType(ChainType.DIAGONAL_TOP_LEFT);
-                    } else {
-                        detectedChain.setSize(detectedChain.getSize() + 1);
                     }
                 } else {
-                    if (detectedChain.getSize() >= 2) {
-                        detectedChain.setEndPositionRow(tempI);
-                        detectedChain.setEndPositionCol(tempJ);
-                        if (playerEnum == PlayerEnum.OWN) {
-                            ownDetectedChains.add(detectedChain);
+                    if (manager.getPlayerEnumAtPositionForecast(j, i) == PlayerEnum.RIVAL) {
+                        //Bereits ein/mehrere Coins vorliegend
+                        if (rivalRowDetected == true) {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            //Ende der Col
+                            if (j == 6) {
+                                safeFoundChain(detectedChain, j, i, PlayerEnum.RIVAL, virtualGameBoard);
+                                detectedChain = new DetectedChain();
+                                rivalRowDetected = false;
+                            }
                         } else {
-                            rivalDetectedChains.add(detectedChain);
+                            //Erster Coin gefunden
+                            rivalRowDetected = true;
+                            //neue Chain mit Werten initialiseren
+                            detectedChain.resetSize();
+                            detectedChain.setStartPositionRow(j);
+                            detectedChain.setStartPositionCol(i);
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                            detectedChain.setChainType(ChainType.VERTICAL);
+                        }
+                    } else
+                    //Kein Coin (mehr) gefunden
+                    {
+                        rivalRowDetected = false;
+                        if (detectedChain.getSize() >= 2) {
+                            safeFoundChain(detectedChain, j, i-1, PlayerEnum.RIVAL, virtualGameBoard);
+                            detectedChain = new DetectedChain();
                         }
                     }
-                    return;
                 }
             }
-            tempI--;
-            tempJ--;
         }
-
-        if(detectedChain.getSize()>=2) {
-            detectedChain.setEndPositionRow(tempI);
-            detectedChain.setEndPositionCol(tempJ);
-            if(playerEnum == PlayerEnum.OWN){
-                ownDetectedChains.add(detectedChain);
-            } else {
-                rivalDetectedChains.add(detectedChain);
-            }
-        }
-
     }
 
-    private void checkDiagonalBottomRight(int i, int j, PlayerEnum playerEnum){
+    private void checkDiagonalTopRight(int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard){
         int tempI = i;
         int tempJ = j;
         boolean chainDetected = false;
         DetectedChain detectedChain = new DetectedChain();
 
-        while(tempI < 6 && tempJ < 6) {
-            if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) != null) {
-                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) == playerEnum) {
-                    if (chainDetected == false) {
-                        chainDetected = true;
-                        detectedChain.setStartPositionRow(tempI);
-                        detectedChain.setStartPositionCol(tempJ);
-                        detectedChain.setSize(detectedChain.getSize() + 2);
-                        detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_RIGHT);
-                    } else {
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                    }
-                } else {
-                    if (detectedChain.getSize() >= 2) {
-                        detectedChain.setEndPositionRow(tempI);
-                        detectedChain.setEndPositionCol(tempJ);
-                        if (playerEnum == PlayerEnum.OWN) {
-                            ownDetectedChains.add(detectedChain);
+        if(virtualGameBoard){
+            while(tempI > 0 && tempJ < 6){
+                if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) != null){
+                    if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) == playerEnum){
+                        if(chainDetected == false){
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize()+2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_TOP_RIGHT);
                         } else {
-                            rivalDetectedChains.add(detectedChain);
+                            detectedChain.setSize(detectedChain.getSize()+1);
                         }
+                    } else {
+                        if(detectedChain.getSize()>=2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if(playerEnum == PlayerEnum.OWN){
+                                ownDetectedChains.add(detectedChain);
+                            } else {
+                                rivalDetectedChains.add(detectedChain);
+                            }
+                        }
+                        return;
                     }
-                    return;
+                }
+                tempI--;
+                tempJ++;
+            }
+
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedChains.add(detectedChain);
+                } else {
+                    rivalDetectedChains.add(detectedChain);
                 }
             }
-            tempI++;
-            tempJ++;
-        }
+        } else {
+            while(tempI > 0 && tempJ < 6){
+                if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) != null){
+                    if(manager.getPlayerEnumAtPosition(tempI-1, tempJ+1) == playerEnum){
+                        if(chainDetected == false){
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize()+2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_TOP_RIGHT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize()+1);
+                        }
+                    } else {
+                        if(detectedChain.getSize()>=2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if(playerEnum == PlayerEnum.OWN){
+                                ownDetectedForecastChains.add(detectedChain);
+                            } else {
+                                rivalDetectedForecastChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI--;
+                tempJ++;
+            }
 
-        if(detectedChain.getSize()>=2) {
-            detectedChain.setEndPositionRow(tempI);
-            detectedChain.setEndPositionCol(tempJ);
-            if(playerEnum == PlayerEnum.OWN){
-                ownDetectedChains.add(detectedChain);
-            } else {
-                rivalDetectedChains.add(detectedChain);
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedForecastChains.add(detectedChain);
+                } else {
+                    rivalDetectedForecastChains.add(detectedChain);
+                }
             }
         }
-
     }
 
-    private void checkDiagonalBottomLeft(int i, int j, PlayerEnum playerEnum){
+    private void checkDiagonalTopLeft(int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard){
         int tempI = i;
         int tempJ = j;
         boolean chainDetected = false;
         DetectedChain detectedChain = new DetectedChain();
 
-        while(tempI < 6 && tempJ > 0) {
-            if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) != null) {
-                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) == playerEnum) {
-                    if (chainDetected == false) {
-                        chainDetected = true;
-                        detectedChain.setStartPositionRow(tempI);
-                        detectedChain.setStartPositionCol(tempJ);
-                        detectedChain.setSize(detectedChain.getSize() + 2);
-                        detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_LEFT);
-                    } else {
-                        detectedChain.setSize(detectedChain.getSize() + 1);
-                    }
-                } else {
-                    if (detectedChain.getSize() >= 2) {
-                        detectedChain.setEndPositionRow(tempI);
-                        detectedChain.setEndPositionCol(tempJ);
-                        if (playerEnum == PlayerEnum.OWN) {
-                            ownDetectedChains.add(detectedChain);
+        if(virtualGameBoard){
+            while(tempI > 0 && tempJ > 0) {
+                if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_TOP_LEFT);
                         } else {
-                            rivalDetectedChains.add(detectedChain);
+                            detectedChain.setSize(detectedChain.getSize() + 1);
                         }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedChains.add(detectedChain);
+                            } else {
+                                rivalDetectedChains.add(detectedChain);
+                            }
+                        }
+                        return;
                     }
-                    return;
+                }
+                tempI--;
+                tempJ--;
+            }
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedChains.add(detectedChain);
+                } else {
+                    rivalDetectedChains.add(detectedChain);
                 }
             }
-            tempI++;
-            tempJ--;
-        }
+        } else {
+            while (tempI > 0 && tempJ > 0) {
+                if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI - 1, tempJ - 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_TOP_LEFT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                        }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedForecastChains.add(detectedChain);
+                            } else {
+                                rivalDetectedForecastChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI--;
+                tempJ--;
+            }
 
-        if(detectedChain.getSize()>=2) {
-            detectedChain.setEndPositionRow(tempI);
-            detectedChain.setEndPositionCol(tempJ);
-            if(playerEnum == PlayerEnum.OWN){
-                ownDetectedChains.add(detectedChain);
-            } else {
-                rivalDetectedChains.add(detectedChain);
+            if (detectedChain.getSize() >= 2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if (playerEnum == PlayerEnum.OWN) {
+                    ownDetectedForecastChains.add(detectedChain);
+                } else {
+                    rivalDetectedForecastChains.add(detectedChain);
+                }
             }
         }
-
     }
 
-    private void checkDiagonalChains(){
+    private void checkDiagonalBottomRight(int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard){
+        int tempI = i;
+        int tempJ = j;
+        boolean chainDetected = false;
+        DetectedChain detectedChain = new DetectedChain();
+
+        if(virtualGameBoard){
+            while(tempI < 6 && tempJ < 6) {
+                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_RIGHT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                        }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedChains.add(detectedChain);
+                            } else {
+                                rivalDetectedChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI++;
+                tempJ++;
+            }
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedChains.add(detectedChain);
+                } else {
+                    rivalDetectedChains.add(detectedChain);
+                }
+            }
+        } else {
+            while(tempI < 6 && tempJ < 6) {
+                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ + 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_RIGHT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                        }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedForecastChains.add(detectedChain);
+                            } else {
+                                rivalDetectedForecastChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI++;
+                tempJ++;
+            }
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedForecastChains.add(detectedChain);
+                } else {
+                    rivalDetectedForecastChains.add(detectedChain);
+                }
+            }
+        }
+    }
+
+    private void checkDiagonalBottomLeft(int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard){
+        int tempI = i;
+        int tempJ = j;
+        boolean chainDetected = false;
+        DetectedChain detectedChain = new DetectedChain();
+
+        if(virtualGameBoard){
+            while(tempI < 6 && tempJ > 0) {
+                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_LEFT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                        }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedChains.add(detectedChain);
+                            } else {
+                                rivalDetectedChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI++;
+                tempJ--;
+            }
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedChains.add(detectedChain);
+                } else {
+                    rivalDetectedChains.add(detectedChain);
+                }
+            }
+        } else {
+            while(tempI < 6 && tempJ > 0) {
+                if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) != null) {
+                    if (manager.getPlayerEnumAtPosition(tempI + 1, tempJ - 1) == playerEnum) {
+                        if (chainDetected == false) {
+                            chainDetected = true;
+                            detectedChain.setStartPositionRow(tempI);
+                            detectedChain.setStartPositionCol(tempJ);
+                            detectedChain.setSize(detectedChain.getSize() + 2);
+                            detectedChain.setChainType(ChainType.DIAGONAL_BOTTOM_LEFT);
+                        } else {
+                            detectedChain.setSize(detectedChain.getSize() + 1);
+                        }
+                    } else {
+                        if (detectedChain.getSize() >= 2) {
+                            detectedChain.setEndPositionRow(tempI);
+                            detectedChain.setEndPositionCol(tempJ);
+                            if (playerEnum == PlayerEnum.OWN) {
+                                ownDetectedForecastChains.add(detectedChain);
+                            } else {
+                                rivalDetectedForecastChains.add(detectedChain);
+                            }
+                        }
+                        return;
+                    }
+                }
+                tempI++;
+                tempJ--;
+            }
+
+            if(detectedChain.getSize()>=2) {
+                detectedChain.setEndPositionRow(tempI);
+                detectedChain.setEndPositionCol(tempJ);
+                if(playerEnum == PlayerEnum.OWN){
+                    ownDetectedForecastChains.add(detectedChain);
+                } else {
+                    rivalDetectedForecastChains.add(detectedChain);
+                }
+            }
+        }
+    }
+
+    private void checkDiagonalChains(boolean virtualGameBoard){
         //check bottom left to upper right
         for (int i = 6; i >= 0; i--) {
             for (int j = 0; j < 7; j++) {
-                if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN){
-                    checkDiagonalTopRight(i, j, PlayerEnum.OWN);
-                    checkDiagonalTopLeft(i, j, PlayerEnum.OWN);
-                    checkDiagonalBottomRight(i, j, PlayerEnum.OWN);
-                    checkDiagonalBottomLeft(i, j, PlayerEnum.OWN);
-                } else if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL){
-                    checkDiagonalTopRight(i, j, PlayerEnum.RIVAL);
-                    checkDiagonalTopLeft(i, j, PlayerEnum.RIVAL);
-                    checkDiagonalBottomRight(i, j, PlayerEnum.RIVAL);
-                    checkDiagonalBottomLeft(i, j, PlayerEnum.RIVAL);
+                if(virtualGameBoard){
+                    if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN){
+                        checkDiagonalTopRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                    } else if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL){
+                        checkDiagonalTopRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                    }
+                } else {
+                    if(manager.getPlayerEnumAtPositionForecast(i, j) == PlayerEnum.OWN){
+                        checkDiagonalTopRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                    } else if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL){
+                        checkDiagonalTopRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                    }
                 }
-
             }
         }
     }
 
-    private void safeFoundChain(DetectedChain detectedChain, int i, int j, PlayerEnum playerEnum){
+    private void safeFoundChain(DetectedChain detectedChain, int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard){
         if(playerEnum==PlayerEnum.OWN){
             detectedChain.setEndPositionRow(i);
             detectedChain.setEndPositionCol(j);
-            ownDetectedChains.add(detectedChain);
+            if(virtualGameBoard){
+                ownDetectedChains.add(detectedChain);
+            } else {
+                ownDetectedForecastChains.add(detectedChain);
+            }
         } else {
             detectedChain.setEndPositionRow(i);
             detectedChain.setEndPositionCol(j);
-            rivalDetectedChains.add(detectedChain);
+            if(virtualGameBoard){
+                rivalDetectedChains.add(detectedChain);
+            } else {
+                rivalDetectedForecastChains.add(detectedChain);
+            }
         }
     }
 
