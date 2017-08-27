@@ -21,7 +21,7 @@ public class VirtualForeCastGameBoard {
     public void initializeBoard(){
         for (int i = 0; i < 7; i++){
             for (int j = 0; j < 7; j++){
-                virtualForeCastGameBoard[i][j] = PlayerEnum.EMPTY;
+                virtualForeCastGameBoard[i][j] = manager.getPlayerEnumAtPosition(i, j);
             }
         }
     }

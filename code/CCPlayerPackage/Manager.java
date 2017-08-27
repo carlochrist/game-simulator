@@ -13,6 +13,8 @@ public class Manager {
     CCPlayer ownPlayer;
 
     VirtualGameBoard virtualGameBoard = new VirtualGameBoard(this);
+
+
     VirtualForeCastGameBoard virtualForecastGameBoard = new VirtualForeCastGameBoard(this);
     MoveGenerator moveGenerator;
     WinSituationDetector winSituationDetector = new WinSituationDetector(this);
@@ -103,6 +105,13 @@ public class Manager {
     }
     public List<Integer> getRemainingColumnsForecast(){
         return virtualForecastGameBoard.getRemainingColumns();
+    }
+    public VirtualForeCastGameBoard getVirtualForecastGameBoard() {
+        return virtualForecastGameBoard;
+    }
+
+    public void setVirtualForecastGameBoard(VirtualForeCastGameBoard virtualForecastGameBoard) {
+        this.virtualForecastGameBoard = virtualForecastGameBoard;
     }
 
 

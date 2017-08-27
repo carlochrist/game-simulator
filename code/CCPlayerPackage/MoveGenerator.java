@@ -948,23 +948,54 @@ public class MoveGenerator {
 
 
 
-        //initialize forecastBoard (copy coins from virtualGameBoard to forecastBoard)
-        manager.initializeForecastVirtualGameBoard();
+//        //initialize forecastBoard (copy coins from virtualGameBoard to forecastBoard)
+//        manager.initializeForecastVirtualGameBoard();
 
-        //add own coin to forecastBoard
-        manager.addCoinToForecastBoard(PlayerEnum.OWN, Integer.parseInt(getColumnOfMoveAsString(plannedMove)));
+//        //add own coin to forecastBoard
+//        manager.addCoinToForecastBoard(PlayerEnum.OWN, Integer.parseInt(getColumnOfMoveAsString(plannedMove)));
+//
 
 
+        //FORECAST NEXT TWO RIVAL MOVES
 
-//        //FORECAST NEXT TWO RIVAL MOVES
-//        List<ForecastObject> forecastObjects = new ArrayList<>();
+        //ADD RIVAL MOVE
+        List<ForecastObject> forecastObjects = new ArrayList<>();
+        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
+            //create new forecast-object
+            ForecastObject forecastObject = new ForecastObject(manager, PlayerEnum.RIVAL);
+
+            //initializeVirtualForecastGameBoard
+            forecastObject.initializeVirtualForecastGameBoard();
+            //set remaining column
+            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
+            //add column to VirtualForecastGameBoard
+            forecastObject.addCoinToBoard(forecastObject.getColumn());
+            //check win (4 coins)
+            forecastObject.setWin(checkOwnWin());
+            forecastObjects.add(forecastObject);
+        }
+
+//        //ADD OWN MOVE
 //        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
 //            //create new forecast-object
 //            ForecastObject forecastObject = new ForecastObject(manager);
-//            forecastObject.setColumn(manager.getRemainingColumns().get(i));
-//            manager.addCoinToForecastBoard(PlayerEnum.RIVAL, manager.getRemainingColumns().get(i));
+//            forecastObject.setOwnMove(true);
+//            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
 //            forecastObject.setWin(checkOwnWin());
+//            forecastObjects.add(forecastObject);
 //        }
+//
+//        //ADD NEXT RIVAL MOVE
+//        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
+//            //create new forecast-object
+//            ForecastObject forecastObject = new ForecastObject(manager);
+//            forecastObject.setOwnMove(false);
+//            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
+//            forecastObject.setWin(checkOwnWin());
+//            forecastObjects.add(forecastObject);
+//        }
+
+        //manager.addCoinToForecastBoard(PlayerEnum.RIVAL, manager.getRemainingColumnsForecast().get(i));
 
 //        for( Move m : moves ) {
 //            p.move( m );
@@ -973,12 +1004,8 @@ public class MoveGenerator {
 //            }
 //            p.undo();
 //        }
-//
-//
-//        rivalMove(manager, p);
-//        manager.getWinSituationDetector().checkAllChains();
-//        ownMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
-//
+
+
 //        //safe lastOwnColumn + return move
 //        manager.setLastOwnColumn(getColumnOfMoveAsInt(manager.getMoveGenerator().getPlannedMove()));
 //        return manager.getMoveGenerator().getPlannedMove();
@@ -1013,21 +1040,21 @@ public class MoveGenerator {
     }
 
 
-    private boolean checkOwnWin() {
+    public boolean checkOwnWin() {
         boolean win = false;
 
         manager.winSituationDetector.checkAllChains();
 
         //check win own chains
         for(int i = 0; i < manager.winSituationDetector.getOwnDetectedChains().size(); i++){
-            if(manager.winSituationDetector.getOwnDetectedChains().get(i).getSize()==4){
+            if(manager.winSituationDetector.getOwnDetectedChains().get(i).getSize()>=4){
                 win = true;
             }
         }
         return win;
     }
 
-    private boolean checkRivalWin() {
+    public boolean checkRivalWin() {
         boolean win = false;
 
         manager.winSituationDetector.checkAllChains();

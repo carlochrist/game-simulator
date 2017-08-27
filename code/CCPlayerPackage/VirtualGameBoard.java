@@ -26,7 +26,6 @@ public class VirtualGameBoard {
         }
     }
 
-
     public void printBoard(){
         String line = "";
         System.out.println("         Col 1 | Col 2 | Col 3 | Col 4 | Col 5 | Col 6 | Col 7 |");
@@ -54,7 +53,7 @@ public void printLineForVisualization(String line){
 //     VisualizationController visualizationController = visualization.getVisualizationController();
 //     visualizationController.setValue(line);
 
-    manager.getVisualization().getVisualizationController().setValue(line);
+    manager.getVisualization().setValue(line);
 }
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){
