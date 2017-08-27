@@ -59,8 +59,8 @@ public class VirtualForeCastGameBoard {
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){
         for(int i = 6; i >= 0; i--){
-                if(virtualForeCastGameBoard[i][col-1]==PlayerEnum.EMPTY){
-                    virtualForeCastGameBoard[i][col-1] = playerEnum;
+                if(virtualForeCastGameBoard[i][col]==PlayerEnum.EMPTY){
+                    virtualForeCastGameBoard[i][col] = playerEnum;
                     break;
                 }
             }

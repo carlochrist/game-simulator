@@ -958,44 +958,60 @@ public class MoveGenerator {
 
         //FORECAST NEXT TWO RIVAL MOVES
 
-        //ADD RIVAL MOVE
+        //ADD OWN MOVE
         List<ForecastObject> forecastObjects = new ArrayList<>();
-        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
+        for (int i = 0; i <= 6; i++){
             //create new forecast-object
-            ForecastObject forecastObject = new ForecastObject(manager, PlayerEnum.RIVAL);
+            ForecastObject forecastObject = new ForecastObject(manager);
 
             //initializeVirtualForecastGameBoard
             forecastObject.initializeVirtualForecastGameBoard();
             //set remaining column
-            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
+            forecastObject.setColumn(i);
             //add column to VirtualForecastGameBoard
-            forecastObject.addCoinToBoard(forecastObject.getColumn());
+            forecastObject.addCoinToBoard(PlayerEnum.OWN, forecastObject.getColumn());
             //check win (4 coins)
             forecastObject.setWin(checkOwnWin());
             forecastObjects.add(forecastObject);
         }
 
-//        //ADD OWN MOVE
-//        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
-//            //create new forecast-object
-//            ForecastObject forecastObject = new ForecastObject(manager);
-//            forecastObject.setOwnMove(true);
-//            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
-//            forecastObject.setWin(checkOwnWin());
-//            forecastObjects.add(forecastObject);
-//        }
-//
-//        //ADD NEXT RIVAL MOVE
-//        for (int i = 0; i < manager.getRemainingColumns().size(); i++){
-//            //create new forecast-object
-//            ForecastObject forecastObject = new ForecastObject(manager);
-//            forecastObject.setOwnMove(false);
-//            forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
-//            forecastObject.setWin(checkOwnWin());
-//            forecastObjects.add(forecastObject);
-//        }
+        //ADD RIVAL MOVE
+        for (int i = 0; i <  forecastObjects.size(); i++){
+            //initializeVirtualForecastGameBoard
+            forecastObjects.get(i).initializeVirtualForecastGameBoard();
+            //set remaining column
+            forecastObjects.get(i).setColumn(i);
+            //add column to VirtualForecastGameBoard
+            forecastObjects.get(i).addCoinToBoard(PlayerEnum.RIVAL, forecastObjects.get(i).getColumn());
+            //check win (4 coins)
+            forecastObjects.get(i).setWin(checkOwnWin());
+        }
 
-        //manager.addCoinToForecastBoard(PlayerEnum.RIVAL, manager.getRemainingColumnsForecast().get(i));
+        //ADD NEXT OWN MOVE
+        for (int i = 0; i <  forecastObjects.size(); i++){
+            //initializeVirtualForecastGameBoard
+            forecastObjects.get(i).initializeVirtualForecastGameBoard();
+            //set remaining column
+            forecastObjects.get(i).setColumn(i);
+            //add column to VirtualForecastGameBoard
+            forecastObjects.get(i).addCoinToBoard(PlayerEnum.OWN, forecastObjects.get(i).getColumn());
+            //check win (4 coins)
+            forecastObjects.get(i).setWin(checkOwnWin());
+        }
+
+        //ADD NEXT RIVAL MOVE
+        for (int i = 0; i <  forecastObjects.size(); i++){
+            //initializeVirtualForecastGameBoard
+            forecastObjects.get(i).initializeVirtualForecastGameBoard();
+            //set remaining column
+            forecastObjects.get(i).setColumn(i);
+            //add column to VirtualForecastGameBoard
+            forecastObjects.get(i).addCoinToBoard(PlayerEnum.RIVAL, forecastObjects.get(i).getColumn());
+            //check win (4 coins)
+            forecastObjects.get(i).setWin(checkOwnWin());
+        }
+
+
 
 //        for( Move m : moves ) {
 //            p.move( m );
@@ -1005,10 +1021,6 @@ public class MoveGenerator {
 //            p.undo();
 //        }
 
-
-//        //safe lastOwnColumn + return move
-//        manager.setLastOwnColumn(getColumnOfMoveAsInt(manager.getMoveGenerator().getPlannedMove()));
-//        return manager.getMoveGenerator().getPlannedMove();
 
 
     //restore virtualGameBoard
@@ -1043,11 +1055,11 @@ public class MoveGenerator {
     public boolean checkOwnWin() {
         boolean win = false;
 
-        manager.winSituationDetector.checkAllChains();
+        manager.winSituationDetector.checkAllChainsForecast();
 
         //check win own chains
-        for(int i = 0; i < manager.winSituationDetector.getOwnDetectedChains().size(); i++){
-            if(manager.winSituationDetector.getOwnDetectedChains().get(i).getSize()>=4){
+        for(int i = 0; i < manager.winSituationDetector.getOwnDetectedForecastChains().size(); i++){
+            if(manager.winSituationDetector.getOwnDetectedForecastChains().get(i).getSize()>=4){
                 win = true;
             }
         }
@@ -1060,8 +1072,8 @@ public class MoveGenerator {
         manager.winSituationDetector.checkAllChains();
 
         //check win own chains
-        for(int i = 0; i < manager.winSituationDetector.getRivalDetectedChains().size(); i++){
-            if(manager.winSituationDetector.getRivalDetectedChains().get(i).getSize()==4){
+        for(int i = 0; i < manager.winSituationDetector.getRivalDetectedForecastChains().size(); i++){
+            if(manager.winSituationDetector.getRivalDetectedForecastChains().get(i).getSize()==4){
                 win = true;
             }
         }

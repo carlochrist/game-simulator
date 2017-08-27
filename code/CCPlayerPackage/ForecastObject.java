@@ -9,13 +9,11 @@ import java.util.List;
 public class ForecastObject {
     Manager manager;
     private int column;
-    private PlayerEnum playerEnum;
     private VirtualForeCastGameBoard virtualForeCastGameBoard;
     List<ForecastObject> forecastObjects = new ArrayList<>();
 
-    public ForecastObject(Manager manager, PlayerEnum playerEnum){
+    public ForecastObject(Manager managerm) {
         this.manager = manager;
-        this.playerEnum = playerEnum;
         virtualForeCastGameBoard = new VirtualForeCastGameBoard(manager);
         virtualForeCastGameBoard.initializeBoard();
     }
@@ -55,16 +53,12 @@ public class ForecastObject {
         this.virtualForeCastGameBoard = virtualForeCastGameBoard;
     }
 
-    public void initializeVirtualForecastGameBoard(){
+    public void initializeVirtualForecastGameBoard() {
         virtualForeCastGameBoard.initializeBoard();
     }
 
-    public ForecastObject(Manager manager){
-        this.manager = manager;
-    }
-
-    public void generateForecastObjects(){
-        for (int i = 0; i < manager.getRemainingColumnsForecast().size(); i++){
+    public void generateForecastObjects() {
+        for (int i = 0; i < manager.getRemainingColumnsForecast().size(); i++) {
             ForecastObject forecastObject = new ForecastObject(manager);
             forecastObject.setColumn(manager.getRemainingColumnsForecast().get(i));
             forecastObject.setWin(manager.getMoveGenerator().checkRivalWin());
@@ -72,8 +66,19 @@ public class ForecastObject {
         }
     }
 
-    public void addCoinToBoard(int col){
+    public void addCoinToBoard(PlayerEnum playerEnum, int col) {
         virtualForeCastGameBoard.addCoinToBoard(playerEnum, col);
     }
+
+    public List<Integer> getRemainingColumnsForecast() {
+        List<Integer> columnList = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            if (virtualForeCastGameBoard.getvirtualForeCastGameBoard()[0][i] == PlayerEnum.EMPTY) {
+                columnList.add(i);
+            }
+        }
+        return columnList;
+    }
+
 
 }
