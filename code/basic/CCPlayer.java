@@ -12,6 +12,7 @@ public class CCPlayer extends Player {
     //booblean für erste Runde
     boolean firstRound = true;
     Manager manager = new Manager(this);
+    int lastRivalCol = 0;
 
     Position p;
     List<Move> moves;
@@ -41,6 +42,7 @@ public class CCPlayer extends Player {
             }
         } else {
             setRivalMove(manager, p);
+            lastRivalCol = safeRivalMove(p);
             manager.getWinSituationDetector().checkAllChains();
             setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
         }
@@ -73,6 +75,10 @@ public class CCPlayer extends Player {
         String lastMove = getColumnOfMoveAsString(p.getLastMove());
         //System.out.println("letzter Zug des Gegners in Spalte: " + lastMove);
         manager.addCoinToVirtualGameBoard(PlayerEnum.RIVAL, Integer.parseInt(lastMove));
+    }
+
+    private int safeRivalMove(Position p){
+        return getColumnOfMoveAsInt(p.getLastMove());
     }
 
     public String getColumnOfMoveAsString(Move move)

@@ -328,11 +328,26 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 1) != null) {
                                 if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                     //check falling
+                                    //no falling - row = 6
+                                    if(harmfulRivalChains.get(i).getStartPositionRow() == 6){
+                                        Random random = new Random();
+                                        boolean left = random.nextBoolean();
+                                        if(left){
+                                            return getMoveOfColumn(harmfulRivalChains.get(i).getStartPositionCol() - 1);
+                                        } else {
+                                            return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
+                                        }
+                                    }
                                     //left
                                     if (harmfulRivalChains.get(i).getStartPositionCol() - 1 >= 0) {
                                         if (harmfulRivalChains.get(i).getStartPositionRow() + 1 < 7) {
                                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getStartPositionRow() + 1, harmfulRivalChains.get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                                return getMoveOfColumn(harmfulRivalChains.get(i).getStartPositionCol() - 1);
+                                                if(manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow() + 1, harmfulRivalChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                                    if(checkNextRivalMoveWin(harmfulRivalChains.get(i).getStartPositionCol() - 1) == false){
+
+                                                    }
+                                                    return getMoveOfColumn(harmfulRivalChains.get(i).getStartPositionCol() - 1);
+                                                }
                                             }
                                         }
                                     }
@@ -340,7 +355,10 @@ public class MoveGenerator {
                                     if (harmfulRivalChains.get(i).getEndPositionCol() + 1 < 7) {
                                         if (harmfulRivalChains.get(i).getEndPositionRow() + 1 < 7) {
                                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow() + 1, harmfulRivalChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                                return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
+                                                if(manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getStartPositionRow() + 1, harmfulRivalChains.get(i).getStartPositionCol()- 1) != PlayerEnum.EMPTY){
+                                                    return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
+                                                }
+
                                             }
                                         }
                                     }
@@ -799,28 +817,28 @@ public class MoveGenerator {
             //improve own coins
             int trys = 0;
             while (trys < 50) {
-                int randomColumn = random.nextInt(notBlockedMoves.size());
-                for (int i = 6; i >=0 ; i--) {
+                int randomColumn = notBlockedMoves.get(random.nextInt(notBlockedMoves.size()));
+                for (int i = 6; i >= 0; i--) {
                     if (manager.getPlayerEnumAtPosition(i, randomColumn) == PlayerEnum.OWN) {
-                            boolean leftOrRight = random.nextBoolean();
-                            //left
-                            if (leftOrRight == true) {
-                                if (randomColumn - 1 >= 0) {
-                                    if (manager.getPlayerEnumAtPosition(i, randomColumn - 1) == PlayerEnum.EMPTY) {
-                                        return getMoveOfColumn(randomColumn - 1);
-                                    }
+                        boolean leftOrRight = random.nextBoolean();
+                        //left
+                        if (leftOrRight == true) {
+                            if (randomColumn - 1 >= 0) {
+                                if (manager.getPlayerEnumAtPosition(i, randomColumn - 1) == PlayerEnum.EMPTY) {
+                                    return getMoveOfColumn(randomColumn - 1);
                                 }
-                            } else {
-                                if (randomColumn + 1 < 7) {
-                                    if (manager.getPlayerEnumAtPosition(i, randomColumn + 1) == PlayerEnum.EMPTY) {
-                                        return getMoveOfColumn(randomColumn + 1);
-                                    }
+                            }
+                        } else {
+                            if (randomColumn + 1 < 7) {
+                                if (manager.getPlayerEnumAtPosition(i, randomColumn + 1) == PlayerEnum.EMPTY) {
+                                    return getMoveOfColumn(randomColumn + 1);
                                 }
                             }
                         }
                     }
-                    trys++;
                 }
+                trys++;
+            }
         }
         return getMoveOfColumn(random.nextInt(notBlockedMoves.size()));
     }
@@ -843,12 +861,11 @@ public class MoveGenerator {
         //TODO: other chains
 
 
-
         return null;
     }
 
 
-    public List<Integer>  getNotBlockedMovesOfRemainingColumns(){
+    public List<Integer> getNotBlockedMovesOfRemainingColumns() {
         List<Integer> notBlockedMoves = manager.getVirtualGameBoard().getRemainingColumns();
         for (int i = 0; i < manager.getVirtualGameBoard().getRemainingColumns().size(); i++) {
             for (int j = 0; j < blockedColumns.size(); j++) {
@@ -864,12 +881,13 @@ public class MoveGenerator {
     }
 
 
-
-
     public Move getMove(boolean meFirst) {
 
         //safe real virtualGameBoard
         VirtualGameBoard tempVirtualGameBoard = manager.getVirtualGameBoard();
+
+        //initialize forecastBoard
+        manager.initializeForecastVirtualGameBoard();
 
         //logic sequence
         //win it!
@@ -896,12 +914,9 @@ public class MoveGenerator {
 //                //check all possible rival moves to new constellation
 
 
-
-
-
-
                 //return move
                 plannedMove = preventEnemyWin();
+
             }
         }
 
@@ -915,8 +930,8 @@ public class MoveGenerator {
                 return plannedMove = getMoveOfColumn(3);
             } else {
                 //generate first move as 2nd player
-                if(manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1
-                && manager.getPlayerEnumAtPosition(6, 3) == PlayerEnum.EMPTY){
+                if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1
+                        && manager.getPlayerEnumAtPosition(6, 3) == PlayerEnum.EMPTY) {
                     return plannedMove = getMoveOfColumn(3);
                 }
                 if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1) {
@@ -926,109 +941,75 @@ public class MoveGenerator {
                 }
             }
 
-        //improve own chains
+            //improve own chains
 
 
-        //get basic, not blocked move
-        if (plannedMove == null) {
-            plannedMove = notBlockedOwnChainImproveMove(notBlockedMoves);
+            //get basic, not blocked move
+            if (plannedMove == null) {
+                plannedMove = notBlockedOwnChainImproveMove(notBlockedMoves);
+            }
+
+
+            //prevent rival
+
+            // random variant
+            // plannedMove = getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
+
+
+            //plannedMove = getMoveOfColumn(randomValue);
+            //or basic move
+            //TODO: combine this! plannedMove = getBasicMove(manager.getLastOwnColumn());
         }
 
-
-        //prevent rival
-
-        // random variant
-        // plannedMove = getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
-
-
-        //plannedMove = getMoveOfColumn(randomValue);
-        //or basic move
-        //TODO: combine this! plannedMove = getBasicMove(manager.getLastOwnColumn());
-    }
-
-
-
-//        //initialize forecastBoard (copy coins from virtualGameBoard to forecastBoard)
-//        manager.initializeForecastVirtualGameBoard();
-
-//        //add own coin to forecastBoard
-//        manager.addCoinToForecastBoard(PlayerEnum.OWN, Integer.parseInt(getColumnOfMoveAsString(plannedMove)));
+//        //FORECAST NEXT TWO RIVAL MOVES
 //
-
-
-        //FORECAST NEXT TWO RIVAL MOVES
-
-        //ADD OWN MOVE
-        List<ForecastObject> forecastObjects = new ArrayList<>();
-        for (int i = 0; i <= 6; i++){
-            //create new forecast-object
-            ForecastObject forecastObject = new ForecastObject(manager);
-
-            //initializeVirtualForecastGameBoard
-            forecastObject.initializeVirtualForecastGameBoard();
-            //set remaining column
-            forecastObject.setColumn(i);
-            //add column to VirtualForecastGameBoard
-            forecastObject.addCoinToBoard(PlayerEnum.OWN, forecastObject.getColumn());
-            //check win (4 coins)
-            forecastObject.setWin(checkOwnWin());
-            forecastObjects.add(forecastObject);
-        }
-
-        //ADD RIVAL MOVE
-        for (int i = 0; i <  forecastObjects.size(); i++){
-            //initializeVirtualForecastGameBoard
-            forecastObjects.get(i).initializeVirtualForecastGameBoard();
-            //set remaining column
-            forecastObjects.get(i).setColumn(i);
-            //add column to VirtualForecastGameBoard
-            forecastObjects.get(i).addCoinToBoard(PlayerEnum.RIVAL, forecastObjects.get(i).getColumn());
-            //check win (4 coins)
-            forecastObjects.get(i).setWin(checkOwnWin());
-        }
-
-        //ADD NEXT OWN MOVE
-        for (int i = 0; i <  forecastObjects.size(); i++){
-            //initializeVirtualForecastGameBoard
-            forecastObjects.get(i).initializeVirtualForecastGameBoard();
-            //set remaining column
-            forecastObjects.get(i).setColumn(i);
-            //add column to VirtualForecastGameBoard
-            forecastObjects.get(i).addCoinToBoard(PlayerEnum.OWN, forecastObjects.get(i).getColumn());
-            //check win (4 coins)
-            forecastObjects.get(i).setWin(checkOwnWin());
-        }
-
-        //ADD NEXT RIVAL MOVE
-        for (int i = 0; i <  forecastObjects.size(); i++){
-            //initializeVirtualForecastGameBoard
-            forecastObjects.get(i).initializeVirtualForecastGameBoard();
-            //set remaining column
-            forecastObjects.get(i).setColumn(i);
-            //add column to VirtualForecastGameBoard
-            forecastObjects.get(i).addCoinToBoard(PlayerEnum.RIVAL, forecastObjects.get(i).getColumn());
-            //check win (4 coins)
-            forecastObjects.get(i).setWin(checkOwnWin());
-        }
-
-
-
-//        for( Move m : moves ) {
-//            p.move( m );
-//            if( p.isWin() ) {
-//                return m;
-//            }
-//            p.undo();
+//        //ADD OWN MOVE
+//        List<ForecastObject> forecastObjects = new ArrayList<>();
+//        for (int i = 0; i <= 6; i++) {
+//            //create new forecast-object
+//            ForecastObject forecastObject = new ForecastObject(manager);
+//
+//            //initializeVirtualForecastGameBoard
+//            forecastObject.initializeVirtualForecastGameBoard();
+//            //set remaining column
+//            forecastObject.setColumn(i);
+//            //add column to VirtualForecastGameBoard
+//            forecastObject.addCoinToBoard(PlayerEnum.OWN, forecastObject.getColumn());
+//            //check win (4 coins)
+//            forecastObject.setWin(checkOwnWin());
+//
+//            //generate new forecastObjects RIVAL MOVE
+//            forecastObject.generateForecastObjects(PlayerEnum.RIVAL);
+//
+////            //ADD RIVAL MOVE
+////            for (int j = 0; j <= 6; j++) {
+////                forecastObject.getForecastObjects().get(j).generateForecastObjects(PlayerEnum.RIVAL);
+////            }
+////
+////            //ADD OWN MOVE
+////            for (int k = 0; k <= 6; k++) {
+////                for (int l = 0; l <= 6; l++) {
+////                    forecastObject.getForecastObjects().get(k).getForecastObjects().get(l).generateForecastObjects(PlayerEnum.OWN);
+////                }
+////            }
+////            //ADD RIVAL MOVE
+////            for (int m = 0; m <= 6; m++) {
+////                for (int n = 0; n <= 6; n++) {
+////                    for (int o = 0; o <= 6; o++) {
+////                        forecastObject.getForecastObjects().get(o).getForecastObjects().get(n).getForecastObjects().get(o).generateForecastObjects(PlayerEnum.RIVAL);
+////                    }
+////                }
+////            }
+//
+//            forecastObjects.add(forecastObject);
 //        }
 
-
-
-    //restore virtualGameBoard
+        //restore virtualGameBoard
         manager.setVirtualGameBoard(tempVirtualGameBoard);
 
-    //return move
+        //return move
         return plannedMove;
-}
+    }
 
 
     public Move getPlannedMove() {
@@ -1051,6 +1032,36 @@ public class MoveGenerator {
         return Character.toString(moveString.charAt(moveString.length() - 2));
     }
 
+    public boolean checkNextRivalMoveWin(int ownCol) {
+        boolean win = false;
+
+        //FORECAST
+        manager.getVirtualForecastGameBoard().addCoinToBoard(PlayerEnum.OWN, ownCol);
+
+
+        //ADD OWN MOVE
+        List<ForecastObject> forecastObjects = new ArrayList<>();
+        for (int i = 0; i <= 6; i++) {
+            //create new forecast-object
+            ForecastObject forecastObject = new ForecastObject(manager);
+
+            //initializeVirtualForecastGameBoard
+            forecastObject.initializeVirtualForecastGameBoard();
+            //set remaining column
+            forecastObject.setColumn(i);
+            //add column to VirtualForecastGameBoard
+            forecastObject.addCoinToBoard(PlayerEnum.OWN, forecastObject.getColumn());
+            //check win (4 coins)
+            forecastObject.setWin(checkOwnWin());
+
+            //generate new forecastObjects RIVAL MOVE
+            forecastObject.generateForecastObjects(PlayerEnum.RIVAL);
+
+
+        }
+        return win;
+    }
+
 
     public boolean checkOwnWin() {
         boolean win = false;
@@ -1058,8 +1069,8 @@ public class MoveGenerator {
         manager.winSituationDetector.checkAllChainsForecast();
 
         //check win own chains
-        for(int i = 0; i < manager.winSituationDetector.getOwnDetectedForecastChains().size(); i++){
-            if(manager.winSituationDetector.getOwnDetectedForecastChains().get(i).getSize()>=4){
+        for (int i = 0; i < manager.winSituationDetector.getOwnDetectedForecastChains().size(); i++) {
+            if (manager.winSituationDetector.getOwnDetectedForecastChains().get(i).getSize() >= 4) {
                 win = true;
             }
         }
@@ -1072,8 +1083,8 @@ public class MoveGenerator {
         manager.winSituationDetector.checkAllChains();
 
         //check win own chains
-        for(int i = 0; i < manager.winSituationDetector.getRivalDetectedForecastChains().size(); i++){
-            if(manager.winSituationDetector.getRivalDetectedForecastChains().get(i).getSize()==4){
+        for (int i = 0; i < manager.winSituationDetector.getRivalDetectedForecastChains().size(); i++) {
+            if (manager.winSituationDetector.getRivalDetectedForecastChains().get(i).getSize() == 4) {
                 win = true;
             }
         }

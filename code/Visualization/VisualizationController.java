@@ -66,7 +66,7 @@ public class VisualizationController implements Initializable {
 
 
     public void setTestValue() {
-        ta_virtualGameboard.setText("TEST");
+        tf_virtualGameboard.setText("TEST");
     }
 
     public void setValue(String value) {

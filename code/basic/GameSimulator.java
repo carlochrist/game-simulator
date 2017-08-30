@@ -52,8 +52,9 @@ public class GameSimulator {
 //	}
 
 	public void startVisualization(String[] args){
-		visualization = new Visualization();
-		visualization.startGUI(args);
+		Visualization visualization = new Visualization(args);
+		this.visualization = visualization;
+
 	}
 
 	public void setVisualization(Visualization visualization){

@@ -40,7 +40,7 @@ public class VirtualGameBoard {
 
             }
             //System.out.println(manager.getVisualization().getVisualizationTest());
-           //printLineForVisualization(line);
+            printLineForVisualization(line);
             System.out.println(line);
         }
     }
@@ -53,7 +53,7 @@ public void printLineForVisualization(String line){
 //     VisualizationController visualizationController = visualization.getVisualizationController();
 //     visualizationController.setValue(line);
 
-    manager.getVisualization().setValue(line);
+    manager.getVisualization().getVisualizationController().setValue(line);
 }
 
     public void addCoinToBoard(PlayerEnum playerEnum, int col){
