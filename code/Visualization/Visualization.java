@@ -1,5 +1,6 @@
 package Visualization;
 
+import CCPlayerPackage.VisualizationManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -78,7 +79,13 @@ public class Visualization extends Application {
     public Visualization() {
     }
 
-    public Visualization(String[] args) {
+
+    public Visualization(String karle)
+    {
+        VisualizationManager.setMyVisualization(this);
+    }
+
+    public void launchApp(String[] args) {
         launch(args);
     }
 

@@ -8,7 +8,9 @@ import java.util.List;
 /**
  * Created by Carlo on 02.05.2017.
  */
-public class VirtualForeCastGameBoard {
+
+//TODO: Bericht - https://www.javatpoint.com/object-cloning
+public class VirtualForeCastGameBoard implements Cloneable{
 
     Manager manager;
     public PlayerEnum [][] virtualForeCastGameBoard = new PlayerEnum[7][7];
@@ -26,6 +28,19 @@ public class VirtualForeCastGameBoard {
         }
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public void removeLastCoinFromColumn(int col){
+        for (int i = 0; i < 7; i++){
+                if(virtualForeCastGameBoard[i][col] != PlayerEnum.EMPTY){
+                    virtualForeCastGameBoard[i][col] = PlayerEnum.EMPTY;
+                    return;
+                }
+        }
+    }
 
     public void printBoard(){
         String line = "";

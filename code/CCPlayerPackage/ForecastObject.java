@@ -14,8 +14,15 @@ public class ForecastObject {
 
     public ForecastObject(Manager manager) {
         this.manager = manager;
-        virtualForeCastGameBoard = new VirtualForeCastGameBoard(manager);
-        virtualForeCastGameBoard.initializeBoard();
+//        virtualForeCastGameBoard = new VirtualForeCastGameBoard(manager);
+//        virtualForeCastGameBoard.initializeBoard();
+        try {
+            virtualForeCastGameBoard = (VirtualForeCastGameBoard) manager.getVirtualForecastGameBoard().clone();
+        } catch (CloneNotSupportedException ex){
+
+        }
+
+
     }
 
     public int getColumn() {

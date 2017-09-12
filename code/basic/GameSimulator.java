@@ -1,6 +1,7 @@
 package basic;
 
 
+import CCPlayerPackage.VisualizationManager;
 import Visualization.Visualization;
 
 import java.io.ByteArrayOutputStream;
@@ -52,9 +53,10 @@ public class GameSimulator {
 //	}
 
 	public void startVisualization(String[] args){
-		Visualization visualization = new Visualization(args);
-		this.visualization = visualization;
-
+		//visualization = new Visualization();
+		visualization = VisualizationManager.getMyVisualization();
+		visualization.launchApp(args);
+		System.out.println("test");
 	}
 
 	public void setVisualization(Visualization visualization){

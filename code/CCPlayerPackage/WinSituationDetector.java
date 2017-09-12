@@ -46,7 +46,7 @@ public class WinSituationDetector {
         checkHorizontalChains(true);
         checkVerticalChains(true);
         checkDiagonalChains(true);
-        //printFoundChains();
+        printFoundChains();
     }
 
     public void checkAllChainsForecast(){
@@ -307,7 +307,7 @@ public class WinSituationDetector {
                     {
                         rivalRowDetected = false;
                         if (detectedChain.getSize() >= 2) {
-                            safeFoundChain(detectedChain, j, i-1, PlayerEnum.RIVAL, virtualGameBoard);
+                            safeFoundChain(detectedChain, j-1, i, PlayerEnum.RIVAL, virtualGameBoard);
                             detectedChain = new DetectedChain();
                         }
                     }
