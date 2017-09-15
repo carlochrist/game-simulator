@@ -213,7 +213,8 @@ public class GUI implements ActionListener, ChangeListener {
 
 //					players[0] = gameSimulator.playerFromName(p1Name);
 //					players[1] = gameSimulator.playerFromName(p2Name);
-
+//TobiasKohlPlayer
+					//SucherSE
 					players[0] = gameSimulator.playerFromName("TobiasKohlPlayer");
 					players[1] = gameSimulator.playerFromName("CCPlayer");
 

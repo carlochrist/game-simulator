@@ -47,7 +47,7 @@ public class CCPlayer extends Player {
             setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
         }
 
-        manager.printVirtualGameBoard();
+//        manager.printVirtualGameBoard();
 
 
         //end firstRound

@@ -46,7 +46,7 @@ public class WinSituationDetector {
         checkHorizontalChains(true);
         checkVerticalChains(true);
         checkDiagonalChains(true);
-        printFoundChains();
+        //printFoundChains();
     }
 
     public void checkAllChainsForecast(){
@@ -72,6 +72,10 @@ public class WinSituationDetector {
             for (int j = 0; j < 7; j++) {
                 if(virtualGameBoard){
                     if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
+                        //check if new row
+                        if(detectedChain.getStartPositionRow() != i){
+                            ownRowDetected = false;
+                        }
                         //Bereits ein/mehrere Coins vorliegend
                         if (ownRowDetected == true) {
                             detectedChain.setSize(detectedChain.getSize()+1);
@@ -140,6 +144,10 @@ public class WinSituationDetector {
             for (int j = 0; j < 7; j++) {
                 if(virtualGameBoard){
                     if(manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
+                        //check if new row
+                        if(detectedChain.getStartPositionRow() != i){
+                            rivalRowDetected = false;
+                        }
                         //Bereits ein/mehrere Coins vorliegend
                         if (rivalRowDetected == true) {
                             detectedChain.setSize(detectedChain.getSize()+1);
@@ -216,6 +224,10 @@ public class WinSituationDetector {
             for (int j = 0; j < 7; j++) {
                 if(virtualGameBoard){
                     if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.OWN) {
+                        //check if new col
+                        if(detectedChain.getStartPositionCol() != i){
+                            ownRowDetected = false;
+                        }
                         //Bereits ein/mehrere Coins vorliegend
                         if (ownRowDetected == true) {
                             detectedChain.setSize(detectedChain.getSize() + 1);
@@ -283,6 +295,10 @@ public class WinSituationDetector {
             for (int j = 0; j < 7; j++) {
                 if(virtualGameBoard){
                     if (manager.getPlayerEnumAtPosition(j, i) == PlayerEnum.RIVAL) {
+                        //check if new col
+                        if(detectedChain.getStartPositionCol() != i){
+                            rivalRowDetected = false;
+                        }
                         //Bereits ein/mehrere Coins vorliegend
                         if (rivalRowDetected == true) {
                             detectedChain.setSize(detectedChain.getSize() + 1);
