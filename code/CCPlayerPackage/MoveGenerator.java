@@ -49,6 +49,7 @@ public class MoveGenerator {
                     if (winnableChains.get(i).getStartPositionRow() - 1 >= 0) {
                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow() - 1, winnableChains.get(i).getStartPositionCol()) != null) {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow() - 1, winnableChains.get(i).getStartPositionCol()) == PlayerEnum.EMPTY) {
+                                System.out.println("WINMOVE VERTIKAL!!!");
                                 return getMoveOfColumn(winnableChains.get(i).getStartPositionCol());
                             }
                         }
@@ -68,11 +69,13 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow(), winnableChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 if (winnableChains.get(i).getStartPositionRow() == 6) {
                                     //WIN IT!
+                                    System.out.println("WINMOVE HORI LEFT!!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getStartPositionCol() - 1);
                                 } else {
                                     //check falling
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow() + 1, winnableChains.get(i).getStartPositionCol() - 1) != null) {
                                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow() + 1, winnableChains.get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                            System.out.println("WINMOVE HORI LEFT!!!!");
                                             return getMoveOfColumn(winnableChains.get(i).getStartPositionCol() - 1);
                                         }
                                     }
@@ -87,11 +90,13 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 if (winnableChains.get(i).getEndPositionRow() == 6) {
                                     //WIN IT!
+                                    System.out.println("WINMOVE HORI RIGHT!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                 } else {
                                     //check falling
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 1, winnableChains.get(i).getEndPositionCol() + 1) != null) {
                                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 1, winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                            System.out.println("WINMOVE HORI RIGHT!!!");
                                             return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                         }
                                     }
@@ -114,7 +119,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow(), winnableChains.get(i).getStartPositionCol() - 2) == PlayerEnum.OWN) {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getStartPositionRow(), winnableChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
                                     //check falling
-                                    if(winnableChains.get(i).getStartPositionRow() == 6){
+                                    if (winnableChains.get(i).getStartPositionRow() == 6) {
                                         return getMoveOfColumn(winnableChains.get(i).getStartPositionCol() - 1);
                                     }
                                     if (winnableChains.get(i).getStartPositionRow() + 1 < 7 && winnableChains.get(i).getStartPositionCol() - 1 >= 0) {
@@ -124,7 +129,7 @@ public class MoveGenerator {
                                             System.out.println("END-ROW: " + winnableChains.get(i).getEndPositionRow());
                                             System.out.println("END-COL: " + winnableChains.get(i).getEndPositionCol());
                                             System.out.println("SIZE" + winnableChains.get(i).getSize());
-                                            System.out.println("CHAINTYPE: " +winnableChains.get(i).getChainType());
+                                            System.out.println("CHAINTYPE: " + winnableChains.get(i).getChainType());
 
 
                                             System.out.println("EIGENER WINMOVE HORIZONTAL LEFT");
@@ -142,7 +147,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 2) == PlayerEnum.OWN) {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                     //check falling
-                                    if(winnableChains.get(i).getEndPositionRow() == 6){
+                                    if (winnableChains.get(i).getEndPositionRow() == 6) {
                                         return getMoveOfColumn(winnableChains.get(i).getStartPositionCol() + 1);
                                     }
                                     if (winnableChains.get(i).getEndPositionRow() + 1 < 7 && winnableChains.get(i).getEndPositionCol() + 1 < 7) {
@@ -152,7 +157,7 @@ public class MoveGenerator {
                                             System.out.println("END-ROW: " + winnableChains.get(i).getEndPositionRow());
                                             System.out.println("END-COL: " + winnableChains.get(i).getEndPositionCol());
                                             System.out.println("SIZE" + winnableChains.get(i).getSize());
-                                            System.out.println("CHAINTYPE: " +winnableChains.get(i).getChainType());
+                                            System.out.println("CHAINTYPE: " + winnableChains.get(i).getChainType());
 
                                             System.out.println("EIGENER WINMOVE HORIZONTAL RIGHT");
                                             return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
@@ -175,7 +180,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                    System.out.println("WINMOVE MIT DIA TOP LEFT!!!!");
+                                    System.out.println("WINMOVE MIT DIA 3 TOP LEFT!!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
                                 }
                             }
@@ -195,7 +200,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                    System.out.println("WINMOVE MIT DIA TOP RIGHT!!!!");
+                                    System.out.println("WINMOVE MIT DIA 3 TOP RIGHT!!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                 }
                             }
@@ -213,10 +218,12 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 1, winnableChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (winnableChains.get(i).getEndPositionRow() + 1 == 6) {
+                                    System.out.println("WINMOVE DIA 3 BOTTOM RIGHT!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                 } else {
                                     if (winnableChains.get(i).getEndPositionRow() + 2 < 7 && winnableChains.get(i).getEndPositionCol() + 1 < 7) {
                                         if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 2, winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                            System.out.println("WINMOVE DIA 3 BOTTOM RIGHT!!!");
                                             return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                         }
                                     }
@@ -236,9 +243,11 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 1, winnableChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (winnableChains.get(i).getEndPositionRow() + 1 == 6) {
+                                    System.out.println("WINMOVE DIA 3 BOTTOM LEFT!!!");
                                     return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
                                 } else {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() + 2, winnableChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                        System.out.println("WINMOVE DIA  3 BOTTOM LEFT!!!");
                                         return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
                                     }
                                 }
@@ -258,7 +267,11 @@ public class MoveGenerator {
                             if (winnableChains.get(i).getEndPositionCol() + 2 < 7 && winnableChains.get(i).getEndPositionRow() - 2 >= 0) {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() + 2) != null) {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() + 2) == PlayerEnum.OWN) {
-                                        return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
+                                        //check falling
+                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.OWN) {
+                                            System.out.println("WINMOVE DIA TOP RIGHT 2!!!");
+                                            return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
+                                        }
                                     }
                                 }
                             }
@@ -277,7 +290,11 @@ public class MoveGenerator {
                             if (winnableChains.get(i).getEndPositionCol() - 2 >= 0 && winnableChains.get(i).getEndPositionRow() - 2 >= 0) {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) != null) {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) == PlayerEnum.OWN) {
-                                        return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
+                                        //check falling
+                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() - 1) != PlayerEnum.OWN) {
+                                            System.out.println("WINMOVE DIA TOP LEFT 2!!!");
+                                            return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
+                                        }
                                     }
                                 }
                             }
@@ -286,6 +303,46 @@ public class MoveGenerator {
                 }
             }
         }
+
+//        //DIAGONAL BOTTOM RIGHT - 2 coins with empty fields on left & right
+//        for (int i = 0; i < winnableChains.size(); i++) {
+//            if (winnableChains.get(i).getChainType() == ChainType.DIAGONAL_BOTTOM_RIGHT && winnableChains.get(i).getSize() == 2) {
+//                if (winnableChains.get(i).getEndPositionCol() - 1 >= 0 && winnableChains.get(i).getEndPositionRow() - 1 >= 0) {
+//                    if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() - 1) != null) {
+//                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
+//                            if (winnableChains.get(i).getEndPositionCol() - 2 >= 0 && winnableChains.get(i).getEndPositionRow() - 2 >= 0) {
+//                                if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) != null) {
+//                                    if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) == PlayerEnum.OWN) {
+//                                        System.out.println("WINMOVE DIA TOP LEFT 2!!!");
+//                                        return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        //DIAGONAL BOTTOM LEFT - 2 coins with empty fields on left & right
+//        for (int i = 0; i < winnableChains.size(); i++) {
+//            if (winnableChains.get(i).getChainType() == ChainType.DIAGONAL_TOP_RIGHT && winnableChains.get(i).getSize() == 2) {
+//                if (winnableChains.get(i).getEndPositionCol() - 1 >= 0 && winnableChains.get(i).getEndPositionRow() - 1 >= 0) {
+//                    if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() - 1) != null) {
+//                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 1, winnableChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
+//                            if (winnableChains.get(i).getEndPositionCol() - 2 >= 0 && winnableChains.get(i).getEndPositionRow() - 2 >= 0) {
+//                                if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) != null) {
+//                                    if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) == PlayerEnum.OWN) {
+//                                        System.out.println("WINMOVE DIA TOP LEFT 2!!!");
+//                                        return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         //check special moves
         checkSpecialMoves(PlayerEnum.OWN);
@@ -388,7 +445,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getStartPositionRow(), harmfulRivalChains.get(i).getStartPositionCol() - 2) == PlayerEnum.RIVAL) {
                                 if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getStartPositionRow(), harmfulRivalChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
                                     //check falling
-                                    if(harmfulRivalChains.get(i).getStartPositionRow() == 6){
+                                    if (harmfulRivalChains.get(i).getStartPositionRow() == 6) {
                                         return getMoveOfColumn(harmfulRivalChains.get(i).getStartPositionCol() - 1);
                                     }
                                     if (harmfulRivalChains.get(i).getStartPositionRow() + 1 < 7 && harmfulRivalChains.get(i).getStartPositionCol() - 1 >= 0) {
@@ -406,10 +463,10 @@ public class MoveGenerator {
                                 if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 2) == PlayerEnum.RIVAL) {
                                     if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                         //check falling
-                                        if(harmfulRivalChains.get(i).getEndPositionRow() == 6){
+                                        if (harmfulRivalChains.get(i).getEndPositionRow() == 6) {
                                             return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
                                         }
-                                        if ((harmfulRivalChains.get(i).getEndPositionRow() + 1 < 7 && harmfulRivalChains.get(i).getEndPositionCol() + 1 < 7 )) {
+                                        if ((harmfulRivalChains.get(i).getEndPositionRow() + 1 < 7 && harmfulRivalChains.get(i).getEndPositionCol() + 1 < 7)) {
                                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow() + 1, harmfulRivalChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
                                                 return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
                                             }
@@ -437,7 +494,7 @@ public class MoveGenerator {
                                         System.out.println("END-ROW: " + harmfulRivalChains.get(i).getEndPositionRow());
                                         System.out.println("END-COL: " + harmfulRivalChains.get(i).getEndPositionCol());
                                         System.out.println("SIZE" + harmfulRivalChains.get(i).getSize());
-                                        System.out.println("CHAINTYPE: " +harmfulRivalChains.get(i).getChainType());
+                                        System.out.println("CHAINTYPE: " + harmfulRivalChains.get(i).getChainType());
                                         //check falling
                                         if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 1) != null) {
                                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
@@ -469,7 +526,7 @@ public class MoveGenerator {
                                         System.out.println("END-ROW: " + harmfulRivalChains.get(i).getEndPositionRow());
                                         System.out.println("END-COL: " + harmfulRivalChains.get(i).getEndPositionCol());
                                         System.out.println("SIZE" + harmfulRivalChains.get(i).getSize());
-                                        System.out.println("CHAINTYPE: " +harmfulRivalChains.get(i).getChainType());
+                                        System.out.println("CHAINTYPE: " + harmfulRivalChains.get(i).getChainType());
                                         //check falling
                                         if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() - 1) != null) {
                                             if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow(), harmfulRivalChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
@@ -500,7 +557,7 @@ public class MoveGenerator {
                                         System.out.println("END-ROW: " + harmfulRivalChains.get(i).getEndPositionRow());
                                         System.out.println("END-COL: " + harmfulRivalChains.get(i).getEndPositionCol());
                                         System.out.println("SIZE" + harmfulRivalChains.get(i).getSize());
-                                        System.out.println("CHAINTYPE: " +harmfulRivalChains.get(i).getChainType());
+                                        System.out.println("CHAINTYPE: " + harmfulRivalChains.get(i).getChainType());
                                         //check falling
                                         if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow() + 2, harmfulRivalChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
                                             return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() + 1);
@@ -528,7 +585,7 @@ public class MoveGenerator {
                                         System.out.println("END-ROW: " + harmfulRivalChains.get(i).getEndPositionRow());
                                         System.out.println("END-COL: " + harmfulRivalChains.get(i).getEndPositionCol());
                                         System.out.println("SIZE" + harmfulRivalChains.get(i).getSize());
-                                        System.out.println("CHAINTYPE: " +harmfulRivalChains.get(i).getChainType());
+                                        System.out.println("CHAINTYPE: " + harmfulRivalChains.get(i).getChainType());
                                         //check falling
                                         if (manager.getPlayerEnumAtPosition(harmfulRivalChains.get(i).getEndPositionRow() + 2, harmfulRivalChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
                                             return getMoveOfColumn(harmfulRivalChains.get(i).getEndPositionCol() - 1);
@@ -715,7 +772,7 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 if (foundChains.get(i).getEndPositionCol() + 1 >= 0 && foundChains.get(i).getEndPositionRow() + 1 >= 0) {
                                     if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                        System.out.println("test");
+                                        System.out.println("BLOCK TOP RIGHT!");
                                         blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
                                     }
                                 }
@@ -769,36 +826,38 @@ public class MoveGenerator {
                         }
                     }
                 }
+            }
 
-                //2 COINS HORIZONTAL
-                if (foundChains.get(i).getChainType() == ChainType.HORIZONTAL) {
-                    if (foundChains.get(i).getSize() == 2) {
-                        //left
-                        if (foundChains.get(i).getStartPositionCol() - 2 >= 0) {
-                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 2) != null) {
-                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 2) == PlayerEnum.OWN) {
-                                    if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
-                                        //check falling
-                                        if (foundChains.get(i).getEndPositionRow() + 1 < 7) {
-                                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                                blockedColumns.add(foundChains.get(i).getStartPositionCol() - 1);
-                                            }
+            //2 COINS HORIZONTAL
+            if (foundChains.get(i).getChainType() == ChainType.HORIZONTAL) {
+                if (foundChains.get(i).getSize() == 2) {
+                    //left
+                    if (foundChains.get(i).getStartPositionCol() - 2 >= 0) {
+                        if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 2) != null) {
+                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 2) == PlayerEnum.OWN) {
+                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
+                                    //check falling
+                                    if (foundChains.get(i).getStartPositionRow() + 1 < 7) {
+                                        if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow() + 1, foundChains.get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                            System.out.println("BLOCK!");
+                                            blockedColumns.add(foundChains.get(i).getStartPositionCol() - 1);
                                         }
                                     }
                                 }
                             }
                         }
+                    }
 
-                        //right
-                        if (foundChains.get(i).getEndPositionCol() + 2 < 7) {
-                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 2) != null) {
-                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 2) == PlayerEnum.OWN) {
-                                    if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
-                                        //check falling
-                                        if (foundChains.get(i).getEndPositionRow() + 1 < 7) {
-                                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                                blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
-                                            }
+                    //right
+                    if (foundChains.get(i).getEndPositionCol() + 2 < 7) {
+                        if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 2) != null) {
+                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 2) == PlayerEnum.OWN) {
+                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
+                                    //check falling
+                                    if (foundChains.get(i).getEndPositionRow() + 1 < 7) {
+                                        if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                            System.out.println("BLOCK!");
+                                            blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
                                         }
                                     }
                                 }
@@ -808,19 +867,21 @@ public class MoveGenerator {
                 }
             }
 
+
             //2 COINS DIAGONAL
             if (foundChains.get(i).getSize() == 2) {
                 //DIAGONAL TOP RIGHT
                 if (foundChains.get(i).getChainType() == ChainType.DIAGONAL_TOP_RIGHT) {
                     if (foundChains.get(i).getEndPositionRow() - 2 >= 0 && foundChains.get(i).getEndPositionCol() + 2 < 7) {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() - 2, foundChains.get(i).getEndPositionCol() + 2) == playerEnum) {
-                                    //check falling
-                                        if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                            blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
-                                        }
+                            //check falling
+                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                System.out.println("DIA BLOCK!");
+                                blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
                             }
                         }
                     }
+                }
 
 
                 //DIAGONAL TOP LEFT
@@ -829,13 +890,13 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() - 2, foundChains.get(i).getEndPositionCol() - 2) == playerEnum) {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() - 1, foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
-                                            if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                                blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
-                                            }
+                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                    blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
                                 }
                             }
                         }
                     }
+                }
 
                 //DIAGONAL BOTTOM RIGHT
                 if (foundChains.get(i).getChainType() == ChainType.DIAGONAL_BOTTOM_RIGHT) {
@@ -843,7 +904,7 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() + 2) == playerEnum) {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 //check falling
-                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow()+2, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
                                     blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
                                 }
                             }
@@ -857,7 +918,7 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() - 2) == playerEnum) {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
-                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() +2, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
                                     blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
                                 }
                             }
@@ -976,6 +1037,136 @@ public class MoveGenerator {
     public Move getNotBlockedpreventRivalChainMove(List<Integer> notBlockedMoves) {
         //TODO: improve this!
 
+
+        //HORIZONTAL
+        for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
+            if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
+                    winSituationDetector.getRivalDetectedChains().get(i).getChainType() == ChainType.HORIZONTAL) {
+                if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1 >= 0 &&
+                        winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7) {
+                    if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow(),
+                            winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY &&
+                            manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow(),
+                                    winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
+                        Random random = new Random();
+                        boolean isLeft = random.nextBoolean();
+                        //LEFT
+                        if (isLeft) {
+                            if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1 >= 0) {
+                                if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow(),
+                                        winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
+                                    //check if blocked
+                                    boolean blocked = true;
+                                    for (int j = 0; j < notBlockedMoves.size(); j++) {
+                                        if (notBlockedMoves.get(j) == winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) {
+                                            blocked = false;
+                                        }
+                                    }
+                                    if (!blocked) {
+                                        //check falling
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() == 6) {
+                                            return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1);
+                                        }
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() + 1 < 7 &&
+                                                winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1 < 7) {
+                                            if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() + 1,
+                                                    winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                                return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else
+                        //RIGHT
+                        {
+                            if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7) {
+                                if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow(),
+                                        winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
+                                    //check if blocked
+                                    boolean blocked = true;
+                                    for (int j = 0; j < notBlockedMoves.size(); j++) {
+                                        if (notBlockedMoves.get(j) == winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) {
+                                            blocked = false;
+                                        }
+                                    }
+                                    if (!blocked) {
+                                        //check falling
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() == 6) {
+                                            return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1);
+                                        }
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1 < 7 &&
+                                                winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7) {
+                                            if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1,
+                                                    winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                                return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        //LEFT
+                        if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1 >= 0) {
+                            if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow(),
+                                    winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
+                                //check if blocked
+                                boolean blocked = true;
+                                for (int j = 0; j < notBlockedMoves.size(); j++) {
+                                    if (notBlockedMoves.get(j) == winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) {
+                                        blocked = false;
+                                    }
+                                }
+                                if (!blocked) {
+                                    //check falling
+                                    if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() == 6) {
+                                        return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1);
+                                    }
+                                    if (winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() + 1 < 7 &&
+                                            winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1 < 7) {
+                                        if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionRow() + 1,
+                                                winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
+                                            return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getStartPositionCol() - 1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //RIGHT
+                        {
+                            if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7) {
+                                if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow(),
+                                        winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
+                                    //check if blocked
+                                    boolean blocked = true;
+                                    for (int j = 0; j < notBlockedMoves.size(); j++) {
+                                        if (notBlockedMoves.get(j) == winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) {
+                                            blocked = false;
+                                        }
+                                    }
+                                    if (!blocked) {
+                                        //check falling
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() == 6) {
+                                            return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1);
+                                        }
+                                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1 < 7 &&
+                                                winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7) {
+                                            if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1,
+                                                    winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
+                                                return getMoveOfColumn(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         //VERTICAL
         for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
             if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
@@ -1001,7 +1192,7 @@ public class MoveGenerator {
         for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
             if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
                     winSituationDetector.getRivalDetectedChains().get(i).getChainType() == ChainType.DIAGONAL_TOP_RIGHT) {
-                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7  &&
+                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7 &&
                         winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() - 1 >= 0) {
                     if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() - 1,
                             winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
@@ -1024,7 +1215,7 @@ public class MoveGenerator {
         for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
             if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
                     winSituationDetector.getRivalDetectedChains().get(i).getChainType() == ChainType.DIAGONAL_TOP_LEFT) {
-                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1 >= 0  &&
+                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1 >= 0 &&
                         winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() - 1 >= 0) {
                     if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() - 1,
                             winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
@@ -1047,12 +1238,12 @@ public class MoveGenerator {
         for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
             if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
                     winSituationDetector.getRivalDetectedChains().get(i).getChainType() == ChainType.DIAGONAL_TOP_RIGHT) {
-                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7  &&
+                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1 < 7 &&
                         winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1 < 7) {
                     if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1,
                             winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                         //check falling
-                        if(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2 < 7){
+                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2 < 7) {
                             if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2,
                                     winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
                                 //check if blocked
@@ -1073,12 +1264,12 @@ public class MoveGenerator {
         for (int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++) {
             if (winSituationDetector.getRivalDetectedChains().get(i).getSize() == 2 &&
                     winSituationDetector.getRivalDetectedChains().get(i).getChainType() == ChainType.DIAGONAL_TOP_RIGHT) {
-                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1 >= 0  &&
+                if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1 >= 0 &&
                         winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1 < 7) {
                     if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 1,
                             winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                         //check falling
-                        if(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2 < 7){
+                        if (winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2 < 7) {
                             if (manager.getPlayerEnumAtPosition(winSituationDetector.getRivalDetectedChains().get(i).getEndPositionRow() + 2,
                                     winSituationDetector.getRivalDetectedChains().get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
                                 //check if blocked
@@ -1094,8 +1285,6 @@ public class MoveGenerator {
                 }
             }
         }
-
-
 
 
         return null;
@@ -1169,101 +1358,69 @@ public class MoveGenerator {
         //initialize forecastBoard
         manager.initializeForecastVirtualGameBoard();
 
-
-//        //CHECK RIVAL WIN
-//        for(int i = 0; i < winSituationDetector.getRivalDetectedChains().size(); i++){
-//            if(winSituationDetector.getRivalDetectedChains().size()==4){
-//                System.out.println("RIVAL WINS!!!");
-//            }
-//        }
-
         //logic sequence
+        //first moves
+        if (meFirst == true) {
+            return plannedMove = getMoveOfColumn(3);
+        } else {
+            //generate first move as 2nd player
+            if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1
+                    && manager.getPlayerEnumAtPosition(6, 3) == PlayerEnum.EMPTY) {
+                return plannedMove = getMoveOfColumn(3);
+            }
+            if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1) {
+                return plannedMove = getMoveOfColumn(3);
+            }
+        }
+
+        if (manager.ownPlayer.getLastRivalCol() == 2) {
+            System.out.println("2 gelegt!");
+        }
+
         //win it!
         if (getOwnWinMove(winSituationDetector.getOwnDetectedChains()) != null) {
             plannedMove = getOwnWinMove(winSituationDetector.getOwnDetectedChains());
-            System.out.println("EIGENER WINMOVE VERSUCHT MIT ZUG: " + getColumnOfMoveAsString(plannedMove));
+            System.out.println("EIGNER WINMOVE!");
             return plannedMove;
         } else {
             //prevent enemy
             if (preventEnemyWin() != null) {
-
-////FORECAST
-//                //prevention found --> now forecast!
-//                //initialize forecastBoard
-//                manager.initializeForecastVirtualGameBoard();
-//                //add own coin to forecastBoard
-//                manager.addCoinToForecastBoard(PlayerEnum.OWN, ownPlayer.getColumnOfMoveAsInt(preventEnemyWin()));
-//
-//
-//                //RIVAL MOVE
-//                //swap coins
-//                manager.swapPlayerCoinsForecastBoard();
-//
-//
-//                //check all possible rival moves to new constellation
-
-
                 //return move
+                System.out.println("GEGNER HINDERN!");
                 plannedMove = preventEnemyWin();
-                //System.out.println("GEGNER HINDERN VERSUCHT MIT ZUG: " + getColumnOfMoveAsString(plannedMove));
             }
         }
 
-        //check if move is on blocked list
-
+        //set not blocked moves
         List<Integer> notBlockedMoves = getNotBlockedMovesOfRemainingColumns();
 
-        //get not blocked move, if no own or enemy-prevention-move
+        //get basic, not blocked move
         if (plannedMove == null) {
-            if (meFirst == true) {
-                return plannedMove = getMoveOfColumn(3);
-            } else {
-                //generate first move as 2nd player
-                if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1
-                        && manager.getPlayerEnumAtPosition(6, 3) == PlayerEnum.EMPTY) {
-                    return plannedMove = getMoveOfColumn(3);
-                }
-                if (manager.getVirtualGameBoard().countEnemyCoinsOnBoard() == 1) {
-//                    Random random = new Random();
-//                    int column = random.nextInt(5 - 1 + 1) + 1;
-//                    plannedMove = getMoveOfColumn(column);
-                    return plannedMove = getMoveOfColumn(3);
-                }
-            }
-
-            //improve own chains
-
-
-            //get basic, not blocked move
-            if (plannedMove == null) {
-                //improve own move
-                //plannedMove = notBlockedOwnChainImproveMove(notBlockedMoves);
-
-                //prevent rival
-                plannedMove = getNotBlockedpreventRivalChainMove(notBlockedMoves);
-
-                //if no prevention move -> random!
-                if (plannedMove == null) {
-                    plannedMove = getNotBlockedRandomMove(notBlockedMoves);
-                }
-            }
-
+            //improve own move
+            //plannedMove = notBlockedOwnChainImproveMove(notBlockedMoves);
 
             //prevent rival
+            plannedMove = getNotBlockedpreventRivalChainMove(notBlockedMoves);
+            if (plannedMove != null) {
+                System.out.println("getNotBlockedpreventRivalChainMove!");
+            }
 
-            // random variant
-            // plannedMove = getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
 
-
-            //plannedMove = getMoveOfColumn(randomValue);
-            //or basic move
-            //TODO: combine this! plannedMove = getBasicMove(manager.getLastOwnColumn());
+            //if no prevention move -> random!
+            if (plannedMove == null) {
+                plannedMove = getNotBlockedRandomMove(notBlockedMoves);
+                System.out.println("RANDOM MOVE!");
+            }
         }
-
-
 
         //restore virtualGameBoard
         manager.setVirtualGameBoard(tempVirtualGameBoard);
+
+        System.out.println("BLOCKED COLUMNS!");
+        for (int i = 0; i < blockedColumns.size(); i++) {
+            System.out.println(blockedColumns.get(i));
+        }
+
 
         //return move
         return plannedMove;

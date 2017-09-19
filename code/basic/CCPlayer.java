@@ -12,6 +12,9 @@ public class CCPlayer extends Player {
     //booblean für erste Runde
     boolean firstRound = true;
     Manager manager = new Manager(this);
+
+
+
     int lastRivalCol = 0;
 
     Position p;
@@ -97,4 +100,7 @@ public class CCPlayer extends Player {
         return Integer.parseInt(getColumnOfMoveAsString(move));
     }
 
+    public int getLastRivalCol() {
+        return lastRivalCol;
+    }
 }
