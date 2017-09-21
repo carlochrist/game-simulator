@@ -1310,53 +1310,34 @@ public class MoveGenerator {
 
 
         List<Integer> ownBlockedColumns = new ArrayList<>();
-        for(int i = 0; i < blockedColumnObjects.size(); i++){
-            if(blockedColumnObjects.get(i).getPlayerEnum() == PlayerEnum.OWN){
-                for(int j = 0; j < blockedColumnObjects.size(); j++){
-                    if(!(blockedColumnObjects.get(i).getColumn() == blockedColumnObjects.get(j).getColumn() &&
-                            blockedColumnObjects.get(j).getPlayerEnum() == PlayerEnum.RIVAL)){
-                        ownBlockedColumns.add(blockedColumnObjects.get(i).getColumn());
+        for (int i = 0; i < blockedColumnObjects.size(); i++) {
+            if (blockedColumnObjects.get(i).getPlayerEnum() == PlayerEnum.OWN) {
+                boolean existsInArray = false;
+
+                for (int j = 0; j < ownBlockedColumns.size(); j++) {
+                    if (blockedColumnObjects.get(i).getColumn() == ownBlockedColumns.get(j)) {
+                        existsInArray = true;
                     }
+                }
+
+                if (existsInArray == false) {
+                    ownBlockedColumns.add(blockedColumnObjects.get(i).getColumn());
                 }
             }
         }
 
-        if(manager.getRemainingColumns().size()==1){
+        if (manager.getRemainingColumns().size() == 1) {
             int i = manager.getRemainingColumns().get(0);
             System.out.println("test");
             return getMoveOfColumn(manager.getRemainingColumns().get(0).intValue());
-        } else if(notBlockedMoves.size() != 0){
+        } else if (notBlockedMoves.size() != 0) {
             return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
-        } else if (ownBlockedColumns.size() != 0){
-            return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
-        } else {
-            return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
+        } else if (ownBlockedColumns.size() != 0) {
+            if (getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size()))) != null) {
+                return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
+            }
         }
-
-
-
-//        if (notBlockedMoves.size() == 0){
-//
-//            return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
-//
-//        } else {
-//            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
-//        }
-
-
-//        if (notBlockedMoves.size() != 0) {
-//
-//            //return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size()/2)));
-//
-//
-//
-//            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
-//        } else {
-//
-//            return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
-//        }
-
-
+        return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
     }
 
     public Move improveOwn2CoinChains(List<Integer> notBlockedMoves) {
@@ -1469,7 +1450,7 @@ public class MoveGenerator {
         }
 
 
-        if(plannedMove == null){
+        if (plannedMove == null) {
             System.out.println("unschön!");
         }
         //return move
