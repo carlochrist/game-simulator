@@ -16,7 +16,8 @@ public class MoveGenerator {
 
     Position position;
     List<Move> moves;
-    List<Integer> blockedColumns = new ArrayList<>();
+    //List<Integer> blockedColumns = new ArrayList<>();
+    List<BlockedColumnObject> blockedColumnObjects = new ArrayList<>();
 
     Move plannedMove;
     CCPlayer ownPlayer;
@@ -744,7 +745,8 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow(), foundChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
                             if (foundChains.get(i).getStartPositionRow() - 1 >= 0) {
                                 if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow() - 1, foundChains.get(i).getStartPositionCol() - 1) == PlayerEnum.EMPTY) {
-                                    blockedColumns.add(foundChains.get(i).getStartPositionCol() - 1);
+                                    BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getStartPositionCol() - 1, playerEnum);
+                                    blockedColumnObjects.add(blockedColumnObject);
                                 }
                             }
                         }
@@ -757,7 +759,8 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                             if (foundChains.get(i).getEndPositionRow() + 1 < 7) {
                                 if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
-                                    blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                    BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                    blockedColumnObjects.add(blockedColumnObject);
                                 }
                             }
                         }
@@ -772,8 +775,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 if (foundChains.get(i).getEndPositionCol() + 1 >= 0 && foundChains.get(i).getEndPositionRow() + 1 >= 0) {
                                     if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                        System.out.println("BLOCK TOP RIGHT!");
-                                        blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                        BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                        blockedColumnObjects.add(blockedColumnObject);
                                     }
                                 }
                             }
@@ -788,8 +791,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 if (foundChains.get(i).getEndPositionCol() - 1 >= 0 && foundChains.get(i).getEndPositionRow() + 1 < 7) {
                                     if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                        System.out.println("test");
-                                        blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
+                                        BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() - 1, playerEnum);
+                                        blockedColumnObjects.add(blockedColumnObject);
                                     }
                                 }
                             }
@@ -804,7 +807,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 if (foundChains.get(i).getEndPositionCol() + 1 >= 0 && foundChains.get(i).getEndPositionRow() + 1 >= 0) {
                                     if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                        blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                        BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                        blockedColumnObjects.add(blockedColumnObject);
                                     }
                                 }
                             }
@@ -819,7 +823,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 if (foundChains.get(i).getEndPositionCol() - 1 >= 0 && foundChains.get(i).getEndPositionRow() + 1 >= 0) {
                                     if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                        blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
+                                        BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() - 1, playerEnum);
+                                        blockedColumnObjects.add(blockedColumnObject);
                                     }
                                 }
                             }
@@ -839,8 +844,8 @@ public class MoveGenerator {
                                     //check falling
                                     if (foundChains.get(i).getStartPositionRow() + 1 < 7) {
                                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getStartPositionRow() + 1, foundChains.get(i).getStartPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                            System.out.println("BLOCK!");
-                                            blockedColumns.add(foundChains.get(i).getStartPositionCol() - 1);
+                                            BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getStartPositionCol() - 1, playerEnum);
+                                            blockedColumnObjects.add(blockedColumnObject);
                                         }
                                     }
                                 }
@@ -856,8 +861,8 @@ public class MoveGenerator {
                                     //check falling
                                     if (foundChains.get(i).getEndPositionRow() + 1 < 7) {
                                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                            System.out.println("BLOCK!");
-                                            blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                            BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                            blockedColumnObjects.add(blockedColumnObject);
                                         }
                                     }
                                 }
@@ -876,8 +881,8 @@ public class MoveGenerator {
                         if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() - 2, foundChains.get(i).getEndPositionCol() + 2) == playerEnum) {
                             //check falling
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                System.out.println("DIA BLOCK!");
-                                blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                blockedColumnObjects.add(blockedColumnObject);
                             }
                         }
                     }
@@ -891,7 +896,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() - 1, foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow(), foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                    blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
+                                    BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() - 1, playerEnum);
+                                    blockedColumnObjects.add(blockedColumnObject);
                                 }
                             }
                         }
@@ -905,7 +911,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() + 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
-                                    blockedColumns.add(foundChains.get(i).getEndPositionCol() + 1);
+                                    BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() + 1, playerEnum);
+                                    blockedColumnObjects.add(blockedColumnObject);
                                 }
                             }
                         }
@@ -919,7 +926,8 @@ public class MoveGenerator {
                             if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 1, foundChains.get(i).getEndPositionCol() - 1) == PlayerEnum.EMPTY) {
                                 //check falling
                                 if (manager.getPlayerEnumAtPosition(foundChains.get(i).getEndPositionRow() + 2, foundChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
-                                    blockedColumns.add(foundChains.get(i).getEndPositionCol() - 1);
+                                    BlockedColumnObject blockedColumnObject = new BlockedColumnObject(foundChains.get(i).getEndPositionCol() - 1, playerEnum);
+                                    blockedColumnObjects.add(blockedColumnObject);
                                 }
                             }
                         }
@@ -1291,6 +1299,8 @@ public class MoveGenerator {
     }
 
     public Move getNotBlockedRandomMove(List<Integer> notBlockedMoves) {
+        Random random = new Random();
+
         //place in middle if possible - else random
         for (int i = 0; i < manager.getRemainingColumns().size(); i++) {
             if (manager.getRemainingColumns().get(i) == 3) {
@@ -1298,21 +1308,55 @@ public class MoveGenerator {
             }
         }
 
-        Random random = new Random();
-        if (notBlockedMoves.size() != 0) {
 
-            //return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size()/2)));
+        List<Integer> ownBlockedColumns = new ArrayList<>();
+        for(int i = 0; i < blockedColumnObjects.size(); i++){
+            if(blockedColumnObjects.get(i).getPlayerEnum() == PlayerEnum.OWN){
+                for(int j = 0; j < blockedColumnObjects.size(); j++){
+                    if(!(blockedColumnObjects.get(i).getColumn() == blockedColumnObjects.get(j).getColumn() &&
+                            blockedColumnObjects.get(j).getPlayerEnum() == PlayerEnum.RIVAL)){
+                        ownBlockedColumns.add(blockedColumnObjects.get(i).getColumn());
+                    }
+                }
+            }
+        }
 
-            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
+        if(manager.getRemainingColumns().size()==1){
+            int i = manager.getRemainingColumns().get(0);
+            System.out.println("test");
+            return getMoveOfColumn(manager.getRemainingColumns().get(0).intValue());
+        } else if(notBlockedMoves.size() != 0){
+            return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
+        } else if (ownBlockedColumns.size() != 0){
+            return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
         } else {
-//            if(blockedColumns.get(0)+1 < 7){
-//                return getMoveOfColumn((blockedColumns.get(0)+1));
-//            }
-//            if(blockedColumns.get(0)-1 >= 0){
-//                return getMoveOfColumn((blockedColumns.get(0)-1));
-//            }
             return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
         }
+
+
+
+//        if (notBlockedMoves.size() == 0){
+//
+//            return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
+//
+//        } else {
+//            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
+//        }
+
+
+//        if (notBlockedMoves.size() != 0) {
+//
+//            //return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size()/2)));
+//
+//
+//
+//            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
+//        } else {
+//
+//            return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
+//        }
+
+
     }
 
     public Move improveOwn2CoinChains(List<Integer> notBlockedMoves) {
@@ -1340,8 +1384,8 @@ public class MoveGenerator {
     public List<Integer> getNotBlockedMovesOfRemainingColumns() {
         List<Integer> notBlockedMoves = manager.getVirtualGameBoard().getRemainingColumns();
         for (int i = 0; i < manager.getVirtualGameBoard().getRemainingColumns().size(); i++) {
-            for (int j = 0; j < blockedColumns.size(); j++) {
-                if (manager.getVirtualGameBoard().getRemainingColumns().get(i) == blockedColumns.get(j)) {
+            for (int j = 0; j < blockedColumnObjects.size(); j++) {
+                if (manager.getVirtualGameBoard().getRemainingColumns().get(i) == blockedColumnObjects.get(j).getColumn()) {
                     //only remove from blocked moves if there are at least 2 possible ones
                     if (notBlockedMoves.size() >= 2) {
                         notBlockedMoves.remove(manager.getVirtualGameBoard().getRemainingColumns().get(i));
@@ -1420,11 +1464,14 @@ public class MoveGenerator {
         manager.setVirtualGameBoard(tempVirtualGameBoard);
 
         System.out.println("BLOCKED COLUMNS!");
-        for (int i = 0; i < blockedColumns.size(); i++) {
-            System.out.println(blockedColumns.get(i));
+        for (int i = 0; i < blockedColumnObjects.size(); i++) {
+            System.out.println(blockedColumnObjects.get(i).getColumn());
         }
 
 
+        if(plannedMove == null){
+            System.out.println("unschön!");
+        }
         //return move
         return plannedMove;
     }
