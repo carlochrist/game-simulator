@@ -268,7 +268,7 @@ public class MoveGenerator {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() + 2) != null) {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() + 2) == PlayerEnum.OWN) {
                                         //check falling
-                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.OWN) {
+                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() + 1) != PlayerEnum.EMPTY) {
                                             System.out.println("WINMOVE DIA TOP RIGHT 2!!!");
                                             return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() + 1);
                                         }
@@ -291,7 +291,7 @@ public class MoveGenerator {
                                 if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) != null) {
                                     if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow() - 2, winnableChains.get(i).getEndPositionCol() - 2) == PlayerEnum.OWN) {
                                         //check falling
-                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() - 1) != PlayerEnum.OWN) {
+                                        if (manager.getPlayerEnumAtPosition(winnableChains.get(i).getEndPositionRow(), winnableChains.get(i).getEndPositionCol() - 1) != PlayerEnum.EMPTY) {
                                             System.out.println("WINMOVE DIA TOP LEFT 2!!!");
                                             return getMoveOfColumn(winnableChains.get(i).getEndPositionCol() - 1);
                                         }
@@ -1300,7 +1300,10 @@ public class MoveGenerator {
 
         Random random = new Random();
         if (notBlockedMoves.size() != 0) {
-            return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
+
+            //return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size()/2)));
+
+            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size()/2));
         } else {
 //            if(blockedColumns.get(0)+1 < 7){
 //                return getMoveOfColumn((blockedColumns.get(0)+1));
