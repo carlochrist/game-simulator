@@ -1,9 +1,6 @@
 package basic;
 
 
-import CCPlayerPackage.VisualizationManager;
-import Visualization.Visualization;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -18,9 +15,6 @@ import java.util.Random;
 
 public class GameSimulator {
 	Random random = new Random();
-	Visualization visualization;
-	GameSimulator gameSimulator;
-
 	GUI gui;
 	Game game;
 	CompetionSetup competionSetup = new CompetionSetup();
@@ -38,41 +32,10 @@ public class GameSimulator {
 		return competionSetup.getPlayerNames();
 	}
 
-//	public static void main(String[] args) {
-//		GameSimulator simu = new GameSimulator();
-//		simu.startOverview(args);
-//		// simu.singleGame();
-//		// simu.competion();
-//
-//
-//
-////		Visualization visualization = new Visualization();
-////		visualization.startGUI(args);
-////		simu.setGameSimulator(simu);
-////		simu.setVisualization(visualization);
-//	}
-
-	public void startVisualization(String[] args){
-		//visualization = new Visualization();
-		visualization = VisualizationManager.getMyVisualization();
-		visualization.launchApp(args);
-		System.out.println("test");
-	}
-
-	public void setVisualization(Visualization visualization){
-		this.visualization = visualization;
-	}
-
-	public void setGameSimulator(GameSimulator gameSimulator){
-		this.gameSimulator = gameSimulator;
-	}
-
-	public Visualization getVisualization(){
-		return visualization;
-	}
-
-	public GameSimulator getGameSimulator(){
-		return gameSimulator;
+	public static void main(String[] args) {
+		GameSimulator simu = new GameSimulator();
+		 //simu.singleGame();
+		 //simu.competion();
 	}
 
 	public Position singleGameGUI( Player[] players ) {
@@ -82,7 +45,6 @@ public class GameSimulator {
 		Player winner = game.play(players);
 		System.out.println("Winner:" + winner);
 		//gui.setText("Winner:" + winner);
-		
 		return game.getPosition();
 	}
 
@@ -130,7 +92,7 @@ public class GameSimulator {
 	}
 
 	public String competion() {
-		
+
 		List<String> playerNames = competionSetup.getPlayerNames();
 		int NP = competionSetup.getNumCopies();
 		Player[] players = new Player[playerNames.size() * NP];

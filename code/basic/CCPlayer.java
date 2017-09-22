@@ -9,17 +9,13 @@ import java.util.List;
  * Created by Carlo on 02.05.2017.
  */
 public class CCPlayer extends Player {
-    //booblean für erste Runde
     boolean firstRound = true;
     Manager manager = new Manager(this);
-
-
 
     int lastRivalCol = 0;
 
     Position p;
     List<Move> moves;
-
 
     @Override
     Move nextMove(Position p, List<Move> moves) {
@@ -30,15 +26,13 @@ public class CCPlayer extends Player {
 
         boolean meFirst = false;
 
-        //Erster Zug
+        //first move
         if(firstRound == true){
             manager.initializeVirtualGameBoard();
             if(p.getLastMove() == null){
-                //System.out.println("Eigener Spieler beginnt!");
                 meFirst = true;
                 setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
             } else {
-                //System.out.println("Gegner hat begonnen!");
                 setRivalMove(manager, p);
                 meFirst = false;
                 setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
@@ -51,7 +45,6 @@ public class CCPlayer extends Player {
         }
 
         manager.printVirtualGameBoard();
-
 
         //end firstRound
         if(firstRound==true) {
@@ -66,7 +59,6 @@ public class CCPlayer extends Player {
     @Override
     public void reset(){
         manager = new Manager(this);
-        //manager.createMoveGenerator(p, moves);
         manager.initializeVirtualGameBoard();
     }
 
@@ -76,7 +68,6 @@ public class CCPlayer extends Player {
 
     private void setRivalMove(Manager manager, Position p){
         String lastMove = getColumnOfMoveAsString(p.getLastMove());
-        //System.out.println("letzter Zug des Gegners in Spalte: " + lastMove);
         manager.addCoinToVirtualGameBoard(PlayerEnum.RIVAL, Integer.parseInt(lastMove));
     }
 

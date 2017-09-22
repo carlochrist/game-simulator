@@ -1,7 +1,5 @@
 package CCPlayerPackage;
 
-import basic.Player;
-
 public class BlockedColumnObject {
     private int column;
 

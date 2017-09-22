@@ -14,16 +14,9 @@ public class Manager {
 
     VirtualGameBoard virtualGameBoard = new VirtualGameBoard(this);
 
-
-    VirtualForeCastGameBoard virtualForecastGameBoard = new VirtualForeCastGameBoard(this);
     MoveGenerator moveGenerator;
     WinSituationDetector winSituationDetector = new WinSituationDetector(this);
     public int lastOwnColumn = 8;
-
-    //Visualization
-    //GameSimulator gameSimulator = new GameSimulator();
-    Visualization visualization = Main.gs.getVisualization();
-
 
     //constructor
     public Manager(CCPlayer ownPlayer){
@@ -41,10 +34,6 @@ public class Manager {
 
     public WinSituationDetector getWinSituationDetector() {
         return winSituationDetector;
-    }
-
-    public Visualization getVisualization(){
-        return visualization;
     }
 
     public int getLastOwnColumn() {
@@ -79,60 +68,4 @@ public class Manager {
     public void setVirtualGameBoard(VirtualGameBoard virtualGameBoard) {
         this.virtualGameBoard = virtualGameBoard;
     }
-
-
-
-    //virtualForecastGameBoard
-    public void initializeForecastVirtualGameBoard(){
-        virtualForecastGameBoard.initializeBoard();
-    }
-    public void printForecastVirtualGameBoard(){
-        virtualForecastGameBoard.printBoard();
-    }
-
-    public void addCoinToVirtualForeCastGameBoard(PlayerEnum playerEnum, int col){
-        virtualGameBoard.addCoinToBoard(playerEnum, col);
-    }
-    public PlayerEnum getPlayerEnumAtPositionForecast(int row, int column){
-        PlayerEnum playerEnum = virtualForecastGameBoard.getPlayerEnumAtPosition(row, column);
-        return playerEnum;
-    }
-    public void addCoinToForecastBoard(PlayerEnum playerEnum, int col){
-        virtualForecastGameBoard.addCoinToBoard(playerEnum, col);
-    }
-    public void addCoinToForecastBoardAtPosition(PlayerEnum playerEnum, int row, int col){
-        virtualForecastGameBoard.addCoinToSpecificPosition(playerEnum, row, col);
-    }
-    public List<Integer> getRemainingColumnsForecast(){
-        return virtualForecastGameBoard.getRemainingColumns();
-    }
-    public VirtualForeCastGameBoard getVirtualForecastGameBoard() {
-        return virtualForecastGameBoard;
-    }
-
-    public void setVirtualForecastGameBoard(VirtualForeCastGameBoard virtualForecastGameBoard) {
-        this.virtualForecastGameBoard = virtualForecastGameBoard;
-    }
-
-
-
-
-
-
-
-
-    public void swapPlayerCoinsForecastBoard(){
-        for(int i = 0; i < 7; i++){
-            for (int j = 0; j < 7; j++){
-                if(getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
-                    addCoinToForecastBoardAtPosition(PlayerEnum.OWN, i, j);
-                } else {
-                    if(getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
-                        addCoinToForecastBoardAtPosition(PlayerEnum.RIVAL, i, j);
-                    }
-                }
-            }
-        }
-    }
-
 }
