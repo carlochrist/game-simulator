@@ -1308,37 +1308,47 @@ public class MoveGenerator {
             }
         }
 
-
         List<Integer> ownBlockedColumns = new ArrayList<>();
         for (int i = 0; i < blockedColumnObjects.size(); i++) {
             if (blockedColumnObjects.get(i).getPlayerEnum() == PlayerEnum.OWN) {
                 boolean existsInArray = false;
-
                 for (int j = 0; j < ownBlockedColumns.size(); j++) {
                     if (blockedColumnObjects.get(i).getColumn() == ownBlockedColumns.get(j)) {
                         existsInArray = true;
                     }
                 }
-
                 if (existsInArray == false) {
                     ownBlockedColumns.add(blockedColumnObjects.get(i).getColumn());
                 }
             }
         }
 
-        if (manager.getRemainingColumns().size() == 1) {
-            int i = manager.getRemainingColumns().get(0);
-            System.out.println("test");
-            return getMoveOfColumn(manager.getRemainingColumns().get(0).intValue());
-        } else if (notBlockedMoves.size() != 0) {
-            return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
+        if (notBlockedMoves.size() != 0) {
+            return getMoveOfColumn(notBlockedMoves.get(notBlockedMoves.size() / 2));
         } else if (ownBlockedColumns.size() != 0) {
             if (getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size()))) != null) {
                 return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
             }
         }
-        return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
+        return moves.get(moves.size()/2);
     }
+
+//            if (manager.getRemainingColumns().size() == 1) {
+//                int i = manager.getRemainingColumns().get(0);
+//                System.out.println("test");
+//                return getMoveOfColumn(manager.getRemainingColumns().get(0).intValue());
+//            } else if (notBlockedMoves.size() != 0) {
+//                return getMoveOfColumn(notBlockedMoves.get(random.nextInt(notBlockedMoves.size())));
+//            } else if (ownBlockedColumns.size() != 0) {
+//                if (getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size()))) != null) {
+//                    return getMoveOfColumn(ownBlockedColumns.get(random.nextInt(ownBlockedColumns.size())));
+//                }
+//            }
+//            return getMoveOfColumn(manager.getRemainingColumns().size() / 2);
+//}
+
+
+
 
     public Move improveOwn2CoinChains(List<Integer> notBlockedMoves) {
         //vertical
@@ -1368,7 +1378,7 @@ public class MoveGenerator {
             for (int j = 0; j < blockedColumnObjects.size(); j++) {
                 if (manager.getVirtualGameBoard().getRemainingColumns().get(i) == blockedColumnObjects.get(j).getColumn()) {
                     //only remove from blocked moves if there are at least 2 possible ones
-                    if (notBlockedMoves.size() >= 2) {
+                    if (notBlockedMoves.size() >= 1) {
                         notBlockedMoves.remove(manager.getVirtualGameBoard().getRemainingColumns().get(i));
                     }
                 }
