@@ -14,15 +14,7 @@ public class BlockedColumnObject {
         return column;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
     public PlayerEnum getPlayerEnum() {
         return playerEnum;
-    }
-
-    public void setPlayerEnum(PlayerEnum playerEnum) {
-        this.playerEnum = playerEnum;
     }
 }
