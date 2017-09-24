@@ -33,7 +33,7 @@ public class WinSituationDetector {
         checkHorizontalChains(true);
         checkVerticalChains(true);
         checkDiagonalChains(true);
-        printFoundChains();
+        //printFoundChains();
     }
 
     public void checkHorizontalChains(boolean virtualGameBoard) {
