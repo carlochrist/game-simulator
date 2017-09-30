@@ -33,7 +33,7 @@ public class WinSituationDetector {
         checkHorizontalChains(true);
         checkVerticalChains(true);
         checkDiagonalChains(true);
-        //printFoundChains();
+        printFoundChains();
     }
 
     public void checkHorizontalChains(boolean virtualGameBoard) {
@@ -122,7 +122,6 @@ public class WinSituationDetector {
                         }
                     }
                 }
-
             }
         }
     }
@@ -217,6 +216,26 @@ public class WinSituationDetector {
         }
     }
 
+    private void checkDiagonalChains(boolean virtualGameBoard) {
+        for (int i = 6; i >= 0; i--) {
+            for (int j = 0; j < 7; j++) {
+                if (virtualGameBoard) {
+                    if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
+                        checkDiagonalTopRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.OWN, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
+                    } else if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
+                        checkDiagonalTopRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalTopLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                        checkDiagonalBottomLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
+                    }
+                }
+            }
+        }
+    }
+
     private void checkDiagonalTopRight(int i, int j, PlayerEnum playerEnum, boolean virtualGameBoard) {
         int tempI = i;
         int tempJ = j;
@@ -252,7 +271,6 @@ public class WinSituationDetector {
                 tempI--;
                 tempJ++;
             }
-
 
             if (detectedChain.getSize() >= 2) {
                 detectedChain.setEndPositionRow(tempI);
@@ -405,27 +423,6 @@ public class WinSituationDetector {
                     ownDetectedChains.add(detectedChain);
                 } else {
                     rivalDetectedChains.add(detectedChain);
-                }
-            }
-        }
-    }
-
-    private void checkDiagonalChains(boolean virtualGameBoard) {
-        //check bottom left to upper right
-        for (int i = 6; i >= 0; i--) {
-            for (int j = 0; j < 7; j++) {
-                if (virtualGameBoard) {
-                    if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.OWN) {
-                        checkDiagonalTopRight(i, j, PlayerEnum.OWN, virtualGameBoard);
-                        checkDiagonalTopLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
-                        checkDiagonalBottomRight(i, j, PlayerEnum.OWN, virtualGameBoard);
-                        checkDiagonalBottomLeft(i, j, PlayerEnum.OWN, virtualGameBoard);
-                    } else if (manager.getPlayerEnumAtPosition(i, j) == PlayerEnum.RIVAL) {
-                        checkDiagonalTopRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
-                        checkDiagonalTopLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
-                        checkDiagonalBottomRight(i, j, PlayerEnum.RIVAL, virtualGameBoard);
-                        checkDiagonalBottomLeft(i, j, PlayerEnum.RIVAL, virtualGameBoard);
-                    }
                 }
             }
         }

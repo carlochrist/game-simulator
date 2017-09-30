@@ -42,11 +42,6 @@ public class CCPlayer extends Player {
             lastRivalCol = safeRivalMove(p);
             manager.getWinSituationDetector().checkAllChains();
             setOwnMove(manager, getColumnOfMoveAsInt(manager.getMoveGenerator().getMove(meFirst)));
-            manager.getVirtualGameBoard().swapPlayerCoins();
-            if(manager.getMoveGenerator().getOwnWinMove(manager.getWinSituationDetector().getRivalDetectedChains(), PlayerEnum.OWN) != null){
-                System.out.println("GEGNER HAT GEWONNEN MIT MOVE: " + getColumnOfMoveAsString(manager.getMoveGenerator().getOwnWinMove(manager.getWinSituationDetector().getRivalDetectedChains(), PlayerEnum.OWN) ) );
-            }
-            manager.getVirtualGameBoard().swapPlayerCoins();
         }
 
         manager.printVirtualGameBoard();
@@ -88,7 +83,6 @@ public class CCPlayer extends Player {
         } else{
             return "1";
         }
-
     }
 
     public int getColumnOfMoveAsInt(Move move)

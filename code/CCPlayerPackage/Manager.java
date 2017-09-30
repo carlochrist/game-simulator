@@ -1,6 +1,5 @@
 package CCPlayerPackage;
 
-import Visualization.Visualization;
 import basic.*;
 
 import java.util.List;
@@ -36,14 +35,9 @@ public class Manager {
         return winSituationDetector;
     }
 
-    public int getLastOwnColumn() {
-        return lastOwnColumn;
-    }
-
     public void setLastOwnColumn(int lastOwnColumn) {
         this.lastOwnColumn = lastOwnColumn;
     }
-
 
     //virtualGameBoard
     public void initializeVirtualGameBoard(){

@@ -1,7 +1,4 @@
 package CCPlayerPackage;
-
-import Visualization.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +36,6 @@ public class VirtualGameBoard {
                 }
 
             }
-            //System.out.println(manager.getVisualization().getVisualizationTest());
-            //  printLineForVisualization(line);
             System.out.println(line);
         }
     }
@@ -101,8 +96,4 @@ public class VirtualGameBoard {
             }
         }
     }
-
-
-
-
 }
